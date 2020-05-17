@@ -10,6 +10,12 @@
             <li>Elemento 2 </li>
             <li>Elemento 3 </li>
         </ol>
-<?PHP echo "Prova php"; ?>
+<?php 
+    $provaAssociativo = array('chiave' => "elemento",'chiave2' => "elemento2" );
+    print_r($provaAssociativo);
+    print "<br>".$provaAssociativo['chiave'];
+    
+?>
+        
     </body>
 </html>
