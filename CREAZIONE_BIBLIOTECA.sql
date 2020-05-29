@@ -8,7 +8,7 @@ CREATE TABLE EDITORE(
     TELEFONO    VARCHAR(12),
     VIA         VARCHAR(30),
     CIVICO      VARCHAR(4),
-    CAP         CHAR(5),
+    CAP         VARCHAR(5),
     CITTA       VARCHAR(10),
     PRIMARY KEY(CODICE),
     UNIQUE(NOME_ED)
@@ -19,7 +19,7 @@ CREATE TABLE LIBRO(
     ISBN        CHAR(11)        NOT NULL,
     TITOLO      VARCHAR(50)     NOT NULL,   #come attributo unique
     ANNO_PUBBL  DATE,
-    COD_ED      INT             NOT NULL	DEFAULT '0',
+    COD_ED      INT             NOT NULL,
     
     PRIMARY KEY(ISBN),
     UNIQUE(TITOLO),
