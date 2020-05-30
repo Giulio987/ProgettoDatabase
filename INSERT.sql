@@ -129,3 +129,4 @@ INSERT INTO STUDENTE VALUES('0000100097','Henryk','Mason','0584-0155-5137','Cors
 INSERT INTO STUDENTE VALUES('0000100098','Umberto','Russo','0535-1555-72','Piazza Traiano','38','48121','Ravenna');
 INSERT INTO STUDENTE VALUES('0000100099','Umberto','Fontana','05785553-0419','Piazza Traiano','67','44121','Ferrara');
 INSERT INTO STUDENTE VALUES('0000100100','Carola','Greco','0536-5555-2493','Corso Costantino','54','44121','Ferrara');
+
