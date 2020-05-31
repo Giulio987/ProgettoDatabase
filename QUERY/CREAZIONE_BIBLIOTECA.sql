@@ -17,8 +17,8 @@ CREATE TABLE EDITORE(
 
 CREATE TABLE LIBRO(
     ISBN        CHAR(11)        NOT NULL,
-    TITOLO      VARCHAR(50)     NOT NULL,   #come attributo unique
-    ANNO_PUBBL  DATE,
+    TITOLO      VARCHAR(100)     NOT NULL,   #come attributo unique
+    ANNO_PUBBL  INT,
     COD_ED      INT             NOT NULL,
     
     PRIMARY KEY(ISBN),
@@ -32,10 +32,10 @@ CREATE TABLE LIBRO(
 
 CREATE TABLE AUTORE(
     ID_AUT          INT         NOT NULL,
-    NOME_A          VARCHAR(15) NOT NULL,        
-    COGNOME_A       VARCHAR(15) NOT NULL, 
+    NOME_A          VARCHAR(30) NOT NULL,        
+    COGNOME_A       VARCHAR(30) NOT NULL, 
     DATANASCITA     DATE,
-    LUOGO_NASCITA   VARCHAR(20),        #presumendo 
+    LUOGO_NASCITA   VARCHAR(30),        #presumendo 
     #che per luogo si intenda solo la citta
     
     PRIMARY KEY(ID_AUT)
@@ -46,8 +46,8 @@ CREATE TABLE AUTORE(
 #tipo 0000144195
 CREATE TABLE STUDENTE(
     MATRICOLA   CHAR(10)        					NOT NULL,
-    NOME        VARCHAR(15)     						NOT NULL,
-    COGNOME     VARCHAR(15)     					NOT NULL,
+    NOME        VARCHAR(30)     						NOT NULL,
+    COGNOME     VARCHAR(30)     					NOT NULL,
     NUMERO_TELEFONO   VARCHAR(15)			NOT NULL,  #PER CONTATTARE LO STUDENTE	
     VIA         VARCHAR(30),
     CIVICO      VARCHAR(4),
@@ -57,7 +57,7 @@ CREATE TABLE STUDENTE(
 );
 
 CREATE TABLE LINGUA(
-    NOME_LINGUA     VARCHAR(15)     NOT NULL,
+    NOME_LINGUA     VARCHAR(30)     NOT NULL,
     PRIMARY KEY(NOME_LINGUA)
 );
 
