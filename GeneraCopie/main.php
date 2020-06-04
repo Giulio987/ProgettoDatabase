@@ -16,10 +16,9 @@
     $result2=mysqli_query($connection,$sql2);
     
     while ($ISBN = mysqli_fetch_array($result2)){
-        $randomDip = $dipartimenti['NOME_DIP'];
         $randomNumeroCopie = rand(1,20);
         for($i = 1; $i <= $randomNumeroCopie; $i++){
-            echo "INSERT INTO COPIA VALUES(\"".$i."\", \"".$ISBN['ISBN']."\",\"".$randomDip."\");"."<br>";
+            echo "INSERT INTO COPIA VALUES(\"".$i."\", \"".$ISBN['ISBN']."\",\"".array_rand($dipartimenti)."\");"."<br>";
         }
     }
     mysqli_close($connection);
