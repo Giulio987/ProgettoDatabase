@@ -13,7 +13,7 @@ INSERT INTO DIPARTIMENTO VALUES('Scienze chimiche e farmaceutiche','Via Luigi Bo
 INSERT INTO DIPARTIMENTO VALUES('Scienze della vita e biotecnologie','Via Luigi Borsari','46','44121','Ferrara');
 INSERT INTO DIPARTIMENTO VALUES('Scienze mediche','Via Fossato di Mortara','64/B','44121','Ferrara');
 INSERT INTO DIPARTIMENTO VALUES('Studi umanistici','Via LParadiso','12','44121','Ferrara');
-INSERT INTO DIPARTIMENTO VALUES('Facoltà di Medicina, Farmacia e Prevenzione', 'Via Fossato di Mortara','70','44121','Ferrara');
+INSERT INTO DIPARTIMENTO VALUES('Facolta di Medicina, Farmacia e Prevenzione', 'Via Fossato di Mortara','70','44121','Ferrara');
 
 
 #GLI EDITORI SONO STATI FORNITI DAL TESTO
