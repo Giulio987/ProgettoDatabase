@@ -20,7 +20,7 @@
     while ($ISBN = mysqli_fetch_array($result3)) {
     $randomNumeroCopie = rand(1, 20);
 
-    $offset = rand(1, $count);
+    $offset = rand(0, $count - 1);
     $sql2 = "SELECT NOME_DIP FROM DIPARTIMENTO LIMIT 1 OFFSET $offset";
     $result2 = mysqli_query($connection, $sql2);
     $dip = mysqli_fetch_array($result2);
