@@ -27,7 +27,7 @@
 
 
     for ($i = 1; $i <= $randomNumeroCopie; $i++) {
-        echo "INSERT INTO COPIA VALUES(\"" . $i . "\", \"" . $ISBN['ISBN'] . "\",\"" . $dip['NOME_DIP'] . "\");" . "<br>";
+        echo "INSERT INTO COPIA VALUES(" . $i . ", '" . $ISBN['ISBN'] . "','" . $dip['NOME_DIP'] . "');" . "<br>";
     }
 }
 mysqli_close($connection);
