@@ -1,0 +1,106 @@
+.g
+{
+  font-size:26px;
+  color:#FF8100;
+  font-weight:bold;
+}
+
+body
+{
+	background-image:url(../img/escheresque.png);
+}
+
+.p
+{
+  font-size:26px;
+  color:#FF8100;
+  font-weight:100;
+}
+
+.glyphicon
+{
+  font-size:30px;
+  color: #fff;
+  margin-top:2px;
+  padding-right:5px;
+}
+
+.navba
+{
+  background-color: #585858;
+  padding-top: 4px;
+  padding-right: 9px;
+}
+
+.white
+{
+  color:#fff;
+}
+
+.right
+{
+  text-align: right;
+}
+
+.carrello span:hover
+{
+  color: #bbb;
+}
+
+.sidebar
+{
+ background-color: #999;
+ padding-left: 0px;
+}
+
+.zero
+{
+  margin-bottom:0px;
+}
+
+.aria
+{
+  padding: 5px;
+  margin: 5px;
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+.scritta
+{
+  padding-top: 5px;
+}
+
+.aria a:hover span
+{
+  color: #000;
+}
+
+.aria a
+{
+  color: #000;
+}
+
+.block
+{
+  display: block;
+}
+
+.desc
+{
+  margin-top: 25px;
+}
+
+.acquista
+{
+  margin-top: 25px;
+}
+
+.border
+{
+  border: 1px solid #585858;
+  background-color: #999;
+  padding:5px;
+  margin: 15px;
+  margin-left: 35px;
+}
