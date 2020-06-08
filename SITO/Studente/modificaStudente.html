@@ -4,14 +4,14 @@
         </script>
     </head>
     <body>
-        <form action="Studente/studente.php" id = 'form' method = 'POST'>
+        <form action="Studente/modificaStudente.php" id = 'form' method = 'POST'>
             Inserire La Matricola da Ricercare:<br>
             <fieldset>
             <label id = 'labelMatricola'>Matricola: <input id ='matricola' type='text'></label><br>
             </fieldset>
 
             <div id = 'informazioni'>
-
+                
             </div>
             <input type='submit' value="Invia" >
         </form>
@@ -23,8 +23,8 @@
                     alert('Inserire La Matricola dello studente da Ricercare')
                     return false
                 }
-                $('#informazioni').show()
-                $('#labelMatricola').hide()
+                $('#informazioni').show();
+                $('#labelMatricola').hide();
             })
 
         })
