@@ -1,4 +1,53 @@
 <html>
-    
-    NuovoStudente
+    <head>
+        <script src='https://code.jquery.com/jquery-3.5.1.min.js'>
+        </script>
+    </head>
+    <body>
+        <form action="studente.php" method="POST" id='form'>
+            
+            <fieldset>
+            <label>Matricola: <input id ='matricola' type='text'></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>Nome: <input id ='nome' type='text'></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>Cognome: <input id ='cognome' type='text'></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>Numero di telefono: <input id ='telefono' type='tel'></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>Via: <input id ='via' type='text' ></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>Civico: <input id ='civico' type='text'></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>CAP: <input id ='cap' type='text' ></label><br>
+            </fieldset>
+            
+            <fieldset>
+            <label>Città: <input id ='citta' type='text'></label><br>
+            </fieldset>
+            
+            
+            <input type='submit' value="Invia">
+        </form>
+        <script>
+            $('#form').submit(function(){
+                if($('#nome').val() == '' || $('#cognome').val() == '' || $('#matricola').val() == '' || $('#telefono').val() == ''){
+                    alert('Inserire I campi obbligatori: Matricola, Nome, Cognome, Telefono')
+                    return false
+                }
+            })
+        </script>
+    </body>
 </html>

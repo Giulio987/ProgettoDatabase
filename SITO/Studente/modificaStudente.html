@@ -1,6 +1,33 @@
 <html>
     <head>
-        
+        <script src='https://code.jquery.com/jquery-3.5.1.min.js'>
+        </script>
     </head>
-    CiaoModifica
+    <body>
+        <form action="studente.php" id = 'form' method = 'POST'>
+            Inserire La Matricola da Ricercare:<br>
+            <fieldset>
+            <label id = 'labelMatricola'>Matricola: <input id ='matricola' type='text'></label><br>
+            </fieldset>
+            
+            <div id = 'informazioni'>
+                
+            </div>
+            <input type='submit' value="Invia" >
+        </form>
+        <script>
+        $(document).ready(function(){
+            $('#informazioni').hide()
+            $('#form').submit(function(){
+                if($('#matricola').val() == ''){
+                    alert('Inserire La Matricola dello studente da Ricercare')
+                    return false
+                }
+                $('#informazioni').show()
+                $('#labelMatricola').hide()
+            })
+            
+        })
+        </script>
+    </body>
 </html>
