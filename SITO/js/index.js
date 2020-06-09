@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     //Inserimento Studente
     $('#nuovoStudente').click(function(){
-        $('#ContainerBody').load('Studente/nuovoStudente.php')
+        $('#ContainerBody').load('Studente/nuovoStudente.html')
     })
     //Modifica Studente
     $('#modificaStudente').click(function(){
