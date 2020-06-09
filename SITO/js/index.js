@@ -4,8 +4,8 @@ $(document).ready(function(){
     $('#home').click(function(){
         $('#ContainerBody').load('home.html')
     });
-    
-    
+
+
     //Inserimento Studente
     $('#nuovoStudente').click(function(){
         $('#ContainerBody').load('Studente/nuovoStudente.php')
@@ -18,7 +18,7 @@ $(document).ready(function(){
     $('#eliminaStudente').click(function(){
         $('#ContainerBody').load('Studente/eliminaStudente.html')
     });
-    
+
     //InserimentoPrestito
     $('#nuovoPrestito').click(function(){
         $('#ContainerBody').load('Prestito/nuovoPrestito.html')
