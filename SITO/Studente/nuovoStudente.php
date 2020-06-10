@@ -44,8 +44,8 @@
                     Studenti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#NewStud" id='nuovoStudente'>Registra Nuovo Studente</a>
-                    <a class="dropdown-item" href="#ModifStud" id = 'modificaStudente'>Modifica Informazioni Studente</a>
+                    <a class="dropdown-item" href="nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
+                    <a class="dropdown-item" href="modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
                     <a class="dropdown-item" href="#DeletStu">Elimina Informazioni Studente</a>
                     </div>
                 </li>
@@ -116,7 +116,7 @@
   </script>
   <?php
 
-  $connection = mysqli_connect("127.0.0.1","root","");
+  $connection = mysqli_connect("127.0.0.1","root","2370");
 
   if(!$connection){
   echo "Non si connette".PHP_EOL;
