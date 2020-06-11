@@ -71,65 +71,97 @@
         <fieldset>
         <label id = 'labelMatricola'>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
       </fieldset>
-        <input type='submit' value="Invia" >
+        <input type='submit' value="Invia" id='submit'>
     </form>
+
     <script>
     $(document).ready(function(){
-        //$('#informazioni').hide()
         $('#form').submit(function(){
             if($('#matricola').val() == ''){
                 alert('Inserire La Matricola dello studente da Ricercare')
                 return false
             }
         })
-
     })
     </script>
-    <?php
+    <form action="modificaStudente.php" id = 'formUpdate' method = 'POST'>
+        <?php
 
-    $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
+        $connection = mysqli_connect("127.0.0.1","root","2370", "Biblioteca");
 
-    if(!$connection){
-    echo "Non si connette".PHP_EOL;
-    echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-    echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
-    exit(-1);
-    }
-    if(isset($_POST['matricola'])){
+        if(!$connection){
+        echo "Non si connette".PHP_EOL;
+        echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
+        echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+        exit(-1);
+        }
 
-    $matricola=get_post($connection, 'matricola');
+        if(isset($_POST['matricola'])) {
+          $matricola=get_post($connection, 'matricola');
 
-    if(!is_numeric($matricola)){
-      echo "Inserire Una Matricola Valida";
-      mysqli_close($connection);
-      exit(-1);
-    }
-    if(strlen($matricola) < 10){
-    $insertZero = "";
-    for($i = 0; $i < (10- strlen($matricola)); $i++){
-    $insertZero = "0".$insertZero;
-    }
-    $matricola = $insertZero.$matricola;
-    }
+          if(!is_numeric($matricola)){
+            echo "Inserire Una Matricola Valida";
+            mysqli_close($connection);
+            exit(-1);
+          }
+          if(strlen($matricola) < 10){
+          $insertZero = "";
+          for($i = 0; $i < (10- strlen($matricola)); $i++){
+          $insertZero = "0".$insertZero;
+          }
+          $matricola = $insertZero.$matricola;
+          }
+          $query = "SELECT * FROM STUDENTE WHERE MATRICOLA=$matricola";
+          $result = mysqli_query($connection, $query);
+          if(!$result){
+              echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
+            }
+          $row = mysqli_fetch_array($result);
 
-    $query = "SELECT * FROM STUDENTE WHERE MATRICOLA=$matricola";
-  $result = mysqli_query($connection, $query);
-  if(!$result){
-      echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
-  }
-//  while($row = mysqli_fetch_array($result)){
-  echo"<script>$('#informazioni').show();$('#labelMatricola').hide();</script>";
+          echo  "<input type=\"text\" name=\"matricola2\" value=".$row['MATRICOLA']."><br>";
+          echo  "<input type=\"text\" name=\"nome\" value=".$row['NOME']."><br>";
+          echo  "<input type=\"text\" name=\"cognome\" value=".$row['COGNOME']."><br>";
+          echo  "<input type=\"text\" name=\"telefono\" value=".$row['NUMERO_TELEFONO']."><br>";
+          echo  "<input type=\"text\" name=\"via\" value=".$row['VIA']."><br>";
+          echo  "<input type=\"text\" name=\"civico\" value=".$row['CIVICO']."><br>";
+          echo  "<input type=\"text\" name=\"cap\" value=".$row['CAP']."><br>";
+          echo  "<input type=\"text\" name=\"citta\" value=".$row['CITTA']."><br>";
+        }
+          if(isset($_POST['Agg'])){
+            if(isset($_POST['matricola2']) && isset($_POST['nome']) && isset($_POST['cognome'])){
+              $matricola2=get_post($connection, 'matricola2');
+              $nome=get_post($connection, 'nome');
+              $cognome=get_post($connection, 'cognome');
+              $telefono=get_post($connection, 'telefono');
+              $via=get_post($connection, 'via');
+              $civico=get_post($connection, 'civico');
+              $cap=get_post($connection, 'cap');
+              $citta=get_post($connection, 'citta');
 
-//  }
-  }
-    mysqli_close($connection);
+            $query = "UPDATE STUDENTE SET MATRICOLA=''$matricola2' NOME='$nome' COGNOME='$cognome' NUMERO_TELEFONO='$telefono' VIA='$via' CIVICO='$civico' CAP='$cap' CITTA='$citta' WHERE MATRICOLA='$matricola'";
+              $result = mysqli_query($connection, $query);
+              if(!$result){
+                echo "Aggiornamento Fallito".$result."<br>".$connection->error."<br>";
+              }
+              else{
+                echo "Aggiornamento OK";
+              }
+            }
+          }
 
 
 
-    function get_post($connection, $var){
-      return $connection->real_escape_string($_POST[$var]);
-    }
-    ?>
-</div>  <!-- FINE DIV INDENTAZIONE -->
+
+        mysqli_close($connection);
+
+
+
+        function get_post($connection, $var){
+          return $connection->real_escape_string($_POST[$var]);
+        }
+        ?>
+        <input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'>
+      </form>
+      </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

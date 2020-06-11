@@ -116,7 +116,7 @@
   </script>
   <?php
 
-  $connection = mysqli_connect("127.0.0.1","root","2370");
+  $connection = mysqli_connect("127.0.0.1","root","");
 
   if(!$connection){
   echo "Non si connette".PHP_EOL;
@@ -141,12 +141,6 @@
     mysqli_close($connection);
     exit(-1);
   }
-  //a prescindere che inizi con zero o meno è sempre un numero intero
-  if(!is_numeric($telefono)){
-  echo "Inserire un numero di telefono Valido";
-  mysqli_close($connection);
-  exit(-1);
-  }
   if(strlen($matricola) < 10){
   $insertZero = "";
   for($i = 0; $i < (10- strlen($matricola)); $i++){
@@ -162,7 +156,7 @@
   }
   echo "Inserimento ok";
   }
-
+  //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
   mysqli_close($connection);
 
 
