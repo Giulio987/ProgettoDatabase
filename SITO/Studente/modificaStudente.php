@@ -68,19 +68,21 @@
     </div>
     <form action="modificaStudente.php" id = 'form' method = 'POST'>
         Inserire La Matricola da Ricercare:<br>
-        <fieldset>
-        <label id = 'labelMatricola'>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+        <fieldset id = 'labelMatricola'>
+        <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
       </fieldset>
-        <input type='submit' value="Invia" id='submit'>
+        <input type='submit' value="Invia" id='submit' name="Inv">
     </form>
 
     <script>
     $(document).ready(function(){
+        //$('#Aggiorna').hide()
         $('#form').submit(function(){
             if($('#matricola').val() == ''){
                 alert('Inserire La Matricola dello studente da Ricercare')
                 return false
             }
+
         })
     })
     </script>
@@ -90,12 +92,11 @@
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
         if(!$connection){
-        echo "Non si connette".PHP_EOL;
-        echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-        echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
-        exit(-1);
+          echo "Non si connette".PHP_EOL;
+          echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
+          echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+          exit(-1);
         }
-
         if(isset($_POST['matricola'])) {
           $matricola=get_post($connection, 'matricola');
 
@@ -117,20 +118,22 @@
               echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
             }
           $row = mysqli_fetch_array($result);
-          echo  "<input type=\"text\" name=\"matricola\" id='savedMatricola' value=".$row['MATRICOLA']."><br>";
+          //Per salvare la matricola precedente
+          echo  "<input type=\"text\" name=\"matricolaVecchia\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
           echo  "<script>$('#savedMatricola').hide()</script>";
-          echo  "<input type=\"text\" name=\"matricola2\" value=".$row['MATRICOLA']."><br>";
-          echo  "<input type=\"text\" name=\"nome\" value=".$row['NOME']."><br>";
-          echo  "<input type=\"text\" name=\"cognome\" value=".$row['COGNOME']."><br>";
-          echo  "<input type=\"text\" name=\"telefono\" value=".$row['NUMERO_TELEFONO']."><br>";
-          echo  "<input type=\"text\" name=\"via\" value=".$row['VIA']."><br>";         //PROBLEMA CON VISUALIZZAZIONE DELLA VIA
-          echo  "<input type=\"text\" name=\"civico\" value=".$row['CIVICO']."><br>";
-          echo  "<input type=\"text\" name=\"cap\" value=".$row['CAP']."><br>";
-          echo  "<input type=\"text\" name=\"citta\" value=".$row['CITTA']."><br>";
+          echo  "<input type=\"text\" name=\"matricola2\" value='".$row['MATRICOLA']."'><br>";
+          echo  "<input type=\"text\" name=\"nome\" value='".$row['NOME']."'><br>";
+          echo  "<input type=\"text\" name=\"cognome\" value='".$row['COGNOME']."'><br>";
+          echo  "<input type=\"text\" name=\"telefono\" value='".$row['NUMERO_TELEFONO']."'><br>";
+          echo  "<input type=\"text\" name=\"via\" value='".$row['VIA']."'><br>";         //PROBLEMA CON VISUALIZZAZIONE DELLA VIA
+          echo  "<input type=\"text\" name=\"civico\" value='".$row['CIVICO']."'><br>";
+          echo  "<input type=\"text\" name=\"cap\" value='".$row['CAP']."'><br>";
+          echo  "<input type=\"text\" name=\"citta\" value='".$row['CITTA']."'><br>";
+
         }
           if(isset($_POST['Agg'])){
             if(isset($_POST['matricola2']) && isset($_POST['nome']) && isset($_POST['cognome'])){
-              $matricola=get_post($connection, 'matricola');
+              $matricola=get_post($connection, 'matricolaVecchia');
               $matricola2=get_post($connection, 'matricola2');
               $nome=get_post($connection, 'nome');
               $cognome=get_post($connection, 'cognome');
@@ -140,13 +143,14 @@
               $cap=get_post($connection, 'cap');
               $citta=get_post($connection, 'citta');
 
-            $query = "UPDATE STUDENTE SET MATRICOLA=$matricola2 NOME=$nome COGNOME=$cognome NUMERO_TELEFONO=$telefono VIA=$via CIVICO=$civico CAP=$cap CITTA=$citta WHERE MATRICOLA=$matricola";
+              $query = "UPDATE STUDENTE SET MATRICOLA='$matricola2', NOME='$nome', COGNOME='$cognome', NUMERO_TELEFONO='$telefono', VIA='$via', CIVICO='$civico', CAP='$cap', CITTA='$citta' WHERE MATRICOLA='$matricola';";
               $result = mysqli_query($connection, $query);
               if(!$result){
                 echo "Aggiornamento Fallito".$result."<br>".$connection->error."<br>";
               }
               else{
-                echo "Aggiornamento OK";
+                echo "Aggiornamento OK<br>";
+                //echo  "<script>$('#Aggiorna').hide()</script>";
               }
             }
           }
