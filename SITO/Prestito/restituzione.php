@@ -44,9 +44,9 @@
                     Studenti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
-                    <a class="dropdown-item" href="modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
-                    <a class="dropdown-item" href="eliminaStudente.php">Elimina Informazioni Studente</a>
+                    <a class="dropdown-item" href="../Studente/nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
+                    <a class="dropdown-item" href="../Studente/modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
+                    <a class="dropdown-item" href="../Studente/eliminaStudente.php">Elimina Informazioni Studente</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

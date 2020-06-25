@@ -44,9 +44,9 @@
                     Studenti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
-                    <a class="dropdown-item" href="#" id = 'modificaStudente.php'>Modifica Informazioni Studente</a>
-                    <a class="dropdown-item" href="eliminaStudente.php">Elimina Informazioni Studente</a>
+                    <a class="dropdown-item" href="../Studente/nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
+                    <a class="dropdown-item" href="../Studente/modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
+                    <a class="dropdown-item" href="../Studente/eliminaStudente.php">Elimina Informazioni Studente</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -92,7 +92,6 @@
     })
     </script>
         <?php
-
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
         if(!$connection){
@@ -126,7 +125,13 @@
             exit(-1);
 
           }
-          SI DEVE AGGIUNGERRE UN INTERO PER DIRE IL NUMERO DI PROROGHE
+          //Ammettendo che una proroga sia di 15 giorni
+          //Ammettendo che ci siano massimo due PROROGHE
+
+          //Si dovrebbe differenziare Una Data Effettiva Di Rientro
+          //rispetto a quella prevista
+
+          
                     /*
           $row = mysqli_fetch_array($res);
           echo "DATA INIZIO PRESTITO ".$row['DATA_USCITA']."<br>";
@@ -141,8 +146,8 @@
           }
           else{
             echo "<br>Aggiornamento OK<br>";
-          }
-        }*/
+          }*/
+        }
 
         mysqli_close($connection);
 
