@@ -54,9 +54,9 @@
                     Prestiti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Prestito/inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
-                    <a class="dropdown-item" href="../Prestito/modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
-                    <a class="dropdown-item" href="../Prestito/restituzione.php" id='eliminaPrestito'>Restituzione</a>
+                    <a class="dropdown-item" href="inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
+                    <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
+                    <a class="dropdown-item" href="restituzione.php" id='eliminaPrestito'>Restituzione</a>
                     </div>
                 </li>
                 </ul>
@@ -69,46 +69,40 @@
         <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
             <fieldset>
+            <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+            </fieldset>
+
+            <fieldset>
+            <label>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+            </fieldset>
+
+            <fieldset>
             <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Nome: <input id ='nome' type='text' name='nome'></label><br>
+            <label id = "data"> </label><br>
             </fieldset>
-
-            <fieldset>
-            <label>Cognome: <input id ='cognome' type='text' name='cognome'></label><br>
-            </fieldset>
-
-            <fieldset>
-            <label>Numero di telefono: <input id ='telefono' type='tel' name='telefono'></label><br>
-            </fieldset>
-
-            <fieldset>
-            <label>Via: <input id ='via' type='text' name='via'></label><br>
-            </fieldset>
-
-            <fieldset>
-            <label>Civico: <input id ='civico' type='text' name='civico'></label><br>
-            </fieldset>
-
-            <fieldset>
-            <label>CAP: <input id ='cap' type='text' name='cap'></label><br>
-            </fieldset>
-
-            <fieldset>
-            <label>Città: <input id ='citta' type='text' name='citta'></label><br>
-            </fieldset>
-
 
             <input type='submit' value="Invia">
         </form>
 
         <script>
         $(document).ready(function(){
+            var curday = function(sp){
+              today = new Date();
+              var dd = today.getDate();
+              var mm = today.getMonth()+1; //As January is 0.
+              var yyyy = today.getFullYear();
+              if(dd<10) dd='0'+dd;
+              if(mm<10) mm='0'+mm;
+              return (dd+sp+mm+sp+yyyy);
+            };
+          document.getElementById("data").innerHTML = "Data di inizio prestito: " + curday('-');
+
             $('#form').submit(function(){
-                if($('#nome').val() == '' || $('#cognome').val() == '' || $('#matricola').val() == '' || $('#telefono').val() == ''){
-                    alert('Inserire I campi obbligatori: Matricola, Nome, Cognome, Telefono')
+                if($('#isbn').val() == '' || $('#nCopia').val() == '' || $('#matricola').val() == '' || $('#iniziop').val() == ''){
+                    alert('Inserire I campi obbligatori:ISBN,numero copia,matricola,data inizio del prestito')
                     return false
                 }
             })
@@ -125,36 +119,42 @@
   exit(-1);
   }
 
-  if(isset($_POST['matricola']) && isset($_POST['nome']) && isset($_POST['cognome'])){
+  if(isset($_POST['matricola']) && isset($_POST['isbn']) && isset($_POST['nCopia'])){
+    $matricola=get_post($connection, 'matricola');
+    $isbn=get_post($connection, 'isbn');
+    $nCopia=get_post($connection, 'nCopia');
+    $iniziop=date('Y-m-d'); //Non Ha senso inserire unadata che non sia quella odierna
 
-  $matricola=get_post($connection, 'matricola');
-  $nome=get_post($connection, 'nome');
-  $cognome=get_post($connection, 'cognome');
-  $telefono=get_post($connection, 'telefono');
-  $via=get_post($connection, 'via');
-  $civico=get_post($connection, 'civico');
-  $cap=get_post($connection, 'cap');
-  $citta=get_post($connection, 'citta');
+    if(!is_numeric($matricola)){
+      echo "Inserire Una Matricola Valida";
+      mysqli_close($connection);
+      exit(-1);
+    }
+    if(strlen($matricola) < 10){
+      $insertZero = "";
+      for($i = 0; $i < (10- strlen($matricola)); $i++){
+        $insertZero = "0".$insertZero;
+      }
+    $matricola = $insertZero.$matricola;
+    }
 
-  if(!is_numeric($matricola)){
-    echo "Inserire Una Matricola Valida";
-    mysqli_close($connection);
-    exit(-1);
-  }
-  if(strlen($matricola) < 10){
-  $insertZero = "";
-  for($i = 0; $i < (10- strlen($matricola)); $i++){
-  $insertZero = "0".$insertZero;
-  }
-  $matricola = $insertZero.$matricola;
-  }
+    $sqlControllo = "SELECT ISBN,NUMERO_COPIA FROM PRESTITO";
+    $resultControllo = mysqli_query($connection, $sqlControllo);
 
-  $ins_studente="INSERT INTO STUDENTE VALUES('$matricola','$nome','$cognome','$telefono','$via','$civico','$cap','$citta')";
-  $result = mysqli_query($connection, $ins_studente);
-  if(!$result){
-    echo "Inserimento Fallito".$result."<br>".$connection->error."<br>";
-  }
-  echo "Inserimento ok";
+    //Scorrendo tutto il ciclo si verificano i libri gia in prestito così da evitare duplicati
+    while($prestiti = mysqli_fetch_array($resultControllo)){
+        if(strcmp($prestiti['ISBN'], $isbn) == 0 && strcmp($prestiti['NUMERO_COPIA'], $nCopia) == 0){
+            echo "Prestito già in corso<br>";
+            mysqli_close($connection);
+            exit(-1);
+        }
+    }
+    $nuovoPrestito="INSERT INTO PRESTITO VALUES('$isbn','$nCopia','$matricola','$iniziop')";
+    $result = mysqli_query($connection, $nuovoPrestito);
+    if(!$result){
+      echo "Inserimento Fallito".$result."<br>".$connection->error."<br>";
+    }
+    echo "Prestito a buon fine";
   }
   //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
   mysqli_close($connection);

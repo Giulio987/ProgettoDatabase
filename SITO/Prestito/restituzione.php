@@ -54,9 +54,9 @@
                     Prestiti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Prestito/inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
-                    <a class="dropdown-item" href="../Prestito/modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
-                    <a class="dropdown-item" href="../Prestito/restituzione.php" id='eliminaPrestito'>Restituzione</a>
+                    <a class="dropdown-item" href="nuovoPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
+                    <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
+                    <a class="dropdown-item" href="eliminaprestito.php" id='eliminaPrestito'>Restituzione</a>
                     </div>
                 </li>
                 </ul>

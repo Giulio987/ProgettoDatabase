@@ -54,9 +54,9 @@
                     Prestiti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Prestito/inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
-                    <a class="dropdown-item" href="../Prestito/modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
-                    <a class="dropdown-item" href="../Prestito/restituzione.php" id='eliminaPrestito'>Restituzione</a>
+                    <a class="dropdown-item" href="inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
+                    <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
+                    <a class="dropdown-item" href="restituzione.php" id='eliminaPrestito'>Restituzione</a>
                     </div>
                 </li>
                 </ul>
@@ -66,27 +66,31 @@
         </div>
     </div>
     </div>
-    <form action="modificaStudente.php" id = 'form' method = 'POST'>
-        Inserire La Matricola da Ricercare:<br>
-        <fieldset id = 'labelMatricola'>
-        <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
-      </fieldset>
-        <input type='submit' value="Invia" id='submit' name="Inv">
-    </form>
+    <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'form' method = 'POST'>
+        Inserire Le Informazioni da Ricercare:<br>
+        <fieldset>
+        <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+        </fieldset>
 
+        <fieldset>
+        <label>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+        </fieldset>
+
+        <fieldset>
+        <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+        </fieldset>
     <script>
     $(document).ready(function(){
         //$('#Aggiorna').hide()
         $('#form').submit(function(){
-            if($('#matricola').val() == ''){
-                alert('Inserire La Matricola dello studente da Ricercare')
+            if($('#matricola').val() == '' || $('#nCopia').val() == '' || $('#isbn').val() == ''){
+                alert('Inserire Tutti i campi per la ricerca')
                 return false
             }
 
         })
     })
     </script>
-    <form action="modificaStudente.php" id = 'formUpdate' method = 'POST'>
         <?php
 
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
@@ -97,8 +101,10 @@
           echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
         }
-        if(isset($_POST['matricola'])) {
+        if(isset($_POST['matricola'])  && isset($_POST['nCopia']) && isset($_POST['isbn'])) {
           $matricola=get_post($connection, 'matricola');
+          $isbn=get_post($connection, 'isbn');
+          $nCopia=get_post($connection, 'nCopia');
 
           if(!is_numeric($matricola)){
             echo "Inserire Una Matricola Valida";
@@ -106,57 +112,37 @@
             exit(-1);
           }
           if(strlen($matricola) < 10){
-          $insertZero = "";
-          for($i = 0; $i < (10- strlen($matricola)); $i++){
-          $insertZero = "0".$insertZero;
-          }
+            $insertZero = "";
+            for($i = 0; $i < (10- strlen($matricola)); $i++){
+              $insertZero = "0".$insertZero;
+            }
           $matricola = $insertZero.$matricola;
           }
-          $query = "SELECT * FROM STUDENTE WHERE MATRICOLA=$matricola";
-          $result = mysqli_query($connection, $query);
-          if(!$result){
-              echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
-            }
-          $row = mysqli_fetch_array($result);
-          //Per salvare la matricola precedente
-          echo  "<input type=\"text\" name=\"matricolaVecchia\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
-          echo  "<script>$('#savedMatricola').hide()</script>";
-          echo  "<input type=\"text\" name=\"matricola2\" value='".$row['MATRICOLA']."'><br>";
-          echo  "<input type=\"text\" name=\"nome\" value='".$row['NOME']."'><br>";
-          echo  "<input type=\"text\" name=\"cognome\" value='".$row['COGNOME']."'><br>";
-          echo  "<input type=\"text\" name=\"telefono\" value='".$row['NUMERO_TELEFONO']."'><br>";
-          echo  "<input type=\"text\" name=\"via\" value='".$row['VIA']."'><br>";         //PROBLEMA CON VISUALIZZAZIONE DELLA VIA
-          echo  "<input type=\"text\" name=\"civico\" value='".$row['CIVICO']."'><br>";
-          echo  "<input type=\"text\" name=\"cap\" value='".$row['CAP']."'><br>";
-          echo  "<input type=\"text\" name=\"citta\" value='".$row['CITTA']."'><br>";
 
-        }
-          if(isset($_POST['Agg'])){
-            if(isset($_POST['matricola2']) && isset($_POST['nome']) && isset($_POST['cognome'])){
-              $matricola=get_post($connection, 'matricolaVecchia');
-              $matricola2=get_post($connection, 'matricola2');
-              $nome=get_post($connection, 'nome');
-              $cognome=get_post($connection, 'cognome');
-              $telefono=get_post($connection, 'telefono');
-              $via=get_post($connection, 'via');
-              $civico=get_post($connection, 'civico');
-              $cap=get_post($connection, 'cap');
-              $citta=get_post($connection, 'citta');
+          $query = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
+          $res = mysqli_query($connection, $query);
+          if(!$res){
+            echo "recupero Data Fallito".$result."<br>".$connection->error."<br>";
+            exit(-1);
 
-              $query = "UPDATE STUDENTE SET MATRICOLA='$matricola2', NOME='$nome', COGNOME='$cognome', NUMERO_TELEFONO='$telefono', VIA='$via', CIVICO='$civico', CAP='$cap', CITTA='$citta' WHERE MATRICOLA='$matricola';";
-              $result = mysqli_query($connection, $query);
-              if(!$result){
-                echo "Aggiornamento Fallito".$result."<br>".$connection->error."<br>";
-              }
-              else{
-                echo "Aggiornamento OK<br>";
-                //echo  "<script>$('#Aggiorna').hide()</script>";
-              }
-            }
           }
-
-
-
+          SI DEVE AGGIUNGERRE UN INTERO PER DIRE IL NUMERO DI PROROGHE
+                    /*
+          $row = mysqli_fetch_array($res);
+          echo "DATA INIZIO PRESTITO ".$row['DATA_USCITA']."<br>";
+          $dataagg=$row['DATA_USCITA'];
+          $dataRientro = date('Y-m-d', strtotime($dataagg.' + 30 days'));
+          echo "DATA PREVISTAPER IL RIENTRO".$dataRientro;
+          if($date )
+          $agg = "UPDATE PRESTITO SET DATA_USCITA=$date  WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
+          $result = mysqli_query($connection, $agg);
+          if(!$result){
+            echo "Aggiornamento Fallito".$result."<br>".$connection->error."<br>";
+          }
+          else{
+            echo "<br>Aggiornamento OK<br>";
+          }
+        }*/
 
         mysqli_close($connection);
 
