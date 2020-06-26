@@ -118,35 +118,34 @@
           $matricola = $insertZero.$matricola;
           }
 
-          $query = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
-          $res = mysqli_query($connection, $query);
-          if(!$res){
-            echo "recupero Data Fallito".$result."<br>".$connection->error."<br>";
+          $queryAll = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
+          $resAll = mysqli_query($connection, $queryAll);
+          if(!$resAll){
+            echo "recupero Data Fallito".$resAll."<br>".$connection->error."<br>";
             exit(-1);
 
           }
+          $row = mysqli_fetch_array($resAll);
+          $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+          echo "DATA INIZIO PRESTITO ".$data_uscita."<br>";
+          $dataRientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+          echo "DATA LIMITE PRESTITO ".$dataRientro."<br>";
+
           //Ammettendo che una proroga sia di 15 giorni
           //Ammettendo che ci siano massimo due PROROGHE
+          //e che l'unica informazione modificabile sia appuntola proroga
+          //che essa andrà adaggiornare automaticamente la data prevista di rientro
+          //NEL MOMENTO IN CUI RIENTRA LA COPIA il prestito viene eliminato quindi non serve
+          //un attributo data di rientro effettiva
 
-          //Si dovrebbe differenziare Una Data Effettiva Di Rientro
-          //rispetto a quella prevista
+          //if(intval($row['N_PROROGHE']) < 2){
 
-          
-                    /*
-          $row = mysqli_fetch_array($res);
-          echo "DATA INIZIO PRESTITO ".$row['DATA_USCITA']."<br>";
-          $dataagg=$row['DATA_USCITA'];
-          $dataRientro = date('Y-m-d', strtotime($dataagg.' + 30 days'));
-          echo "DATA PREVISTAPER IL RIENTRO".$dataRientro;
-          if($date )
-          $agg = "UPDATE PRESTITO SET DATA_USCITA=$date  WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
-          $result = mysqli_query($connection, $agg);
-          if(!$result){
-            echo "Aggiornamento Fallito".$result."<br>".$connection->error."<br>";
-          }
-          else{
-            echo "<br>Aggiornamento OK<br>";
-          }*/
+            $date1=$data_uscita;
+            $date2=$dataRientro;
+            $format="%a";
+            echo dateDiff($date1,$date2,$format);
+          //}
+
         }
 
         mysqli_close($connection);
@@ -156,8 +155,15 @@
         function get_post($connection, $var){
           return $connection->real_escape_string($_POST[$var]);
         }
+        function dateDiff($date1,$date2,$format)
+        {
+          $datetime1 = new DateTime($date1);
+          $datetime2 = new DateTime($date2);
+          $interval = $datetime1->diff($datetime2);
+          return $interval->format($format);
+        }
         ?>
-        <input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'>
+        <input type='submit' value="Proroga" id='Aggiorna' name='Agg'>
       </form>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
