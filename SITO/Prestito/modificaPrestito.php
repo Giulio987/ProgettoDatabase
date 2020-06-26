@@ -126,13 +126,8 @@
 
           }
           $row = mysqli_fetch_array($resAll);
-<<<<<<< HEAD
           $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
-          echo "DATA INIZIO PRESTITO ".$data_uscita."<br>";
-=======
-          $data_uscita=date('Y-m-d', $row['DATA_USCITA']);
-
->>>>>>> a4515092d5fce73598038d471c221792dae5bf86
+          echo "DATA INIZIO PRESTITO ".$dataRientro."<br>";
           $dataRientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
           echo "DATA LIMITE PRESTITO ".$dataRientro."<br>";
 
@@ -143,25 +138,10 @@
           //NEL MOMENTO IN CUI RIENTRA LA COPIA il prestito viene eliminato quindi non serve
           //un attributo data di rientro effettiva
 
-<<<<<<< HEAD
           if(intval($row['N_PROROGHE']) < 2){
 
-            $date1=$data_uscita;
-            $date2=$dataRientro;
-            $format="%a";
-            echo dateDiff($date1,$date2,$format)DATA_USCITA='';
           }
 
-=======
-          //if(intval($row['N_PROROGHE']) < 2){
-
-            $date1=$data_uscita;
-            $date2=$dataRientro;
-            $format="%a";
-            echo dateDiff($date1,$date2,$format);
-          //}
-
->>>>>>> a4515092d5fce73598038d471c221792dae5bf86
         }
 
         mysqli_close($connection);
@@ -170,13 +150,6 @@
 
         function get_post($connection, $var){
           return $connection->real_escape_string($_POST[$var]);
-        }
-        function dateDiff($date1,$date2,$format)
-        {
-          $datetime1 = new DateTime($date1);
-          $datetime2 = new DateTime($date2);
-          $interval = $datetime1->diff($datetime2);
-          return $interval->format($format);
         }
         ?>
         <input type='submit' value="Proroga" id='Aggiorna' name='Agg'>

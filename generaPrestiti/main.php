@@ -76,7 +76,7 @@
         }
 
         //output finale
-        echo "INSERT INTO PRESTITO VALUES('".$libro['ISBN']."', ".$libro['NUMERO_COPIA'].", '".$studente['MATRICOLA']."', '".date("Y-m-d", $timestamp)."');"."<br>";
+        echo "INSERT INTO PRESTITO VALUES('".$libro['ISBN']."', ".$libro['NUMERO_COPIA'].", '".$studente['MATRICOLA']."', '".date("Y-m-d", $timestamp)."',0);"."<br>";
 
     }
 
