@@ -138,13 +138,13 @@
           //NEL MOMENTO IN CUI RIENTRA LA COPIA il prestito viene eliminato quindi non serve
           //un attributo data di rientro effettiva
 
-          //if(intval($row['N_PROROGHE']) < 2){
+          if(intval($row['N_PROROGHE']) < 2){
 
             $date1=$data_uscita;
             $date2=$dataRientro;
             $format="%a";
-            echo dateDiff($date1,$date2,$format);
-          //}
+            echo dateDiff($date1,$date2,$format)DATA_USCITA='';
+          }
 
         }
 
