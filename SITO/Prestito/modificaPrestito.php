@@ -57,6 +57,7 @@
                     <a class="dropdown-item" href="inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
                     <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
                     <a class="dropdown-item" href="restituzione.php" id='eliminaPrestito'>Restituzione</a>
+                    <a class="dropdown-item" href="situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
                     </div>
                 </li>
                 </ul>
@@ -67,6 +68,7 @@
     </div>
     </div>
     <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'form' method = 'POST'>
+
         Inserire Le Informazioni da Ricercare:<br>
         <fieldset>
         <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
@@ -79,6 +81,8 @@
         <fieldset>
         <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
         </fieldset>
+        <input type='submit' value="Invia" id='submit' name="Inv">
+      </form>
     <script>
     $(document).ready(function(){
         //$('#Aggiorna').hide()
@@ -91,6 +95,7 @@
         })
     })
     </script>
+    <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formUpdate' method = 'POST'>
         <?php
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
@@ -118,7 +123,7 @@
           $matricola = $insertZero.$matricola;
           }
 
-          $queryAll = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
+          $queryAll = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA=$nCopia;";
           $resAll = mysqli_query($connection, $queryAll);
           if(!$resAll){
             echo "recupero Data Fallito".$resAll."<br>".$connection->error."<br>";
@@ -127,9 +132,9 @@
           }
           $row = mysqli_fetch_array($resAll);
           $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
-          echo "DATA INIZIO PRESTITO ".$dataRientro."<br>";
-          $dataRientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
-          echo "DATA LIMITE PRESTITO ".$dataRientro."<br>";
+          echo "DATA INIZIO PRESTITO ".$data_uscita."<br>";
+          $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+
 
           //Ammettendo che una proroga sia di 15 giorni
           //Ammettendo che ci siano massimo due PROROGHE
@@ -138,12 +143,56 @@
           //NEL MOMENTO IN CUI RIENTRA LA COPIA il prestito viene eliminato quindi non serve
           //un attributo data di rientro effettiva
 
-          if(intval($row['N_PROROGHE']) < 2){
-
+          if(intval($row['N_PROROGHE']) == 1){
+            $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
           }
+          else if(intval($row['N_PROROGHE']) == 2){
+            $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+          }
+          echo "DATA LIMITE PRESTITO ".$data_rientro;
+          //PER MANTENERE INPUT
+          echo  "<input type=\"text\" name=\"matricola1\" id='matricola1' value='".get_post($connection, 'matricola');
+          echo  "<script>$('#matricola1').hide()</script>";
+          echo  "<input type=\"text\" name=\"isbn1\" id='isbn1' value='".get_post($connection, 'isbn');
+          echo  "<script>$('#isbn1').hide()</script>";
+          echo  "<input type=\"text\" name=\"nCopia1\" id='nCopia1' value='".get_post($connection, 'nCopia');
+          echo  "<script>$('#nCopia1').hide()</script>";
 
         }
+        if(isset($_POST['Pror'])){
+          $matricola = get_post($connection, 'matricola1');
+          $isbn = get_post($connection, 'isbn1');
+          $nCopia=  get_post($connection, 'nCopia1');
+          if(strlen($matricola) < 10){
+            $insertZero = "";
+            for($i = 0; $i < (10- strlen($matricola)); $i++){
+              $insertZero = "0".$insertZero;
+            }
+          $matricola = $insertZero.$matricola;
+          }
 
+          $query = "SELECT N_PROROGHE FROM PRESTITO WHERE ISBN='$isbn' AND MATRICOLA='$matricola' AND NUMERO_COPIA=$nCopia;";
+          $res= mysqli_query($connection, $query);
+          if(!$res){
+            echo "Recupero Proroghe Fallito".$res."<br>".$connection->error."<br>";
+            exit(-1);
+          }
+          $row = mysqli_fetch_array($res);
+          if(($nProroghe=intval($row['N_PROROGHE'])) < 2){
+            ++$nProroghe;
+            $query1 = "UPDATE PRESTITO SET N_PROROGHE=$nProroghe WHERE ISBN='$isbn' AND MATRICOLA='$matricola' AND NUMERO_COPIA=$nCopia;";
+            $res1= mysqli_query($connection, $query1);
+            if(!$res1){
+              echo "Aggiornamento Fallito".$res1."<br>".$connection->error."<br>";
+              exit(-1);
+            }
+            echo "PROROGA COMPLETATA<br>";
+          }
+          else{
+            echo "Impossibile Prorogare Ulteriormente il Prestito<br>";
+            exit(-1);
+          }
+        }
         mysqli_close($connection);
 
 
@@ -152,7 +201,7 @@
           return $connection->real_escape_string($_POST[$var]);
         }
         ?>
-        <input type='submit' value="Proroga" id='Aggiorna' name='Agg'>
+        <input type='submit' value="Proroga" id='Proroga' name='Pror'>
       </form>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>

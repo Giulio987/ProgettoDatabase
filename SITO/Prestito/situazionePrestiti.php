@@ -58,6 +58,7 @@
                     <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
                     <a class="dropdown-item" href="restituzione.php" id='eliminaPrestito'>Restituzione</a>
                     <a class="dropdown-item" href="situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
+
                     </div>
                 </li>
                 </ul>
@@ -67,33 +68,35 @@
         </div>
     </div>
     </div>
-        <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
+    <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <label class="input-group-text" for="inputGroupSelect01">Scegli</label>
+        </div>
+        <select class="custom-select" id="inputGroupSelect01" name="scelta">
+          <option selected>Choose...</option>
+          <option value="Matricola" name='Matricola'>Matricola</option>
+          <option value="ISBN" name = 'ISBN'>ISBN</option>
+        </select>
+        </div>
+
+            INSERIRE MATRICOLA O ISBN
             <fieldset>
-            <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+            <label>INSERIRE: <input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
-            <fieldset>
-            <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
-            </fieldset>
-            <fieldset>
-            <label>Numero Copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
-            </fieldset>
-            <input type='submit' value="Invia" >
-        </form>
 
         <script>
           $(document).ready(function(){
             $('#form').submit(function(){
-                if($('#matricola').val() == '' || $('#isbn').val() == '' || $('#nCopia').val() == ''){
-                    alert('Inserire i campi obbligatori');
+                if($('#Valore').val() == ''){
+                    alert('Inserire uno dei due campi');
                     return false
                 }
             })
           });
       </script>
-      <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formDelete' method = 'POST'>
           <?php
-
           $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
           if(!$connection){
@@ -102,79 +105,101 @@
           echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
           }
+          if(isset($_POST["scelta"])){
+            $opzione = $_POST["scelta"];
+            if($opzione == 'Matricola') {
+              $matricola=get_post($connection, 'Valore');
 
-          if(isset($_POST['matricola'])) {
-            $matricola=get_post($connection, 'matricola');
-            $isbn=get_post($connection, 'isbn');
-            $nCopia=get_post($connection, 'nCopia');
-
-            if(!is_numeric($matricola)){
-              echo "Inserire Una Matricola Valida";
-              mysqli_close($connection);
-              exit(-1);
-            }
-            if(strlen($matricola) < 10){
-              $insertZero = "";
-              for($i = 0; $i < (10- strlen($matricola)); $i++){
-                $insertZero = "0".$insertZero;
+              if(!is_numeric($matricola)){
+                echo "Inserire Una Matricola Valida";
+                mysqli_close($connection);
+                exit(-1);
               }
-              $matricola = $insertZero.$matricola;
-            }
+              if(strlen($matricola) < 10){
+                $insertZero = "";
+                for($i = 0; $i < (10- strlen($matricola)); $i++){
+                  $insertZero = "0".$insertZero;
+                }
+                $matricola = $insertZero.$matricola;
+              }
+              $ricerca_studente="SELECT * FROM STUDENTE WHERE MATRICOLA='$matricola';";
+              $resultStud = mysqli_query($connection, $ricerca_studente);
+              if(!$resultStud){
+                echo "Ricerca Studente Fallita".$resultStud."<br>".$connection->error."<br>";
+              }
+              $row = mysqli_fetch_array($resultStud);
+              echo "STUDENTE:<br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>VIA:  ".$row['VIA']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
 
-            $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
-            $result = mysqli_query($connection, $ricerca_prestito);
-            if(!$result){
-              echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
-            }
-            $row = mysqli_fetch_array($result);
-
-            echo  "<input type=\"text\" name=\"matricola1\" id='savedMatricola' value='".$row['MATRICOLA']."'>";
-            echo  "<script>$('#savedMatricola').hide()</script>";
-            echo  "<input type=\"text\" name=\"isbn1\" id='isbnSaved' value='".$row['ISBN']."'>";
-            echo  "<script>$('#isbnSaved').hide()</script>";
-            echo  "<input type=\"text\" name=\"nCopia1\" id='nCopiaSaved' value='".$row['NUMERO_COPIA']."'>";
-            echo  "<script>$('#nCopiaSaved').hide()</script>";
-
-            echo "<table class=\"table\">
-                  <thead class='thead-dark'>
-                  <tr>
-                    <th scope=\"col\">MATRICOLA</th>
-                    <th scope=\"col\">ISBN</th>
-                    <th scope=\"col\">N° COPIA</th>
-                    <th scope=\"col\">DATA INIZIO PRESTITO</th>
-                    <th scope=\"col\">PROROGA N°</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope=\"row\">".$row['MATRICOLA']."</th>
-                    <td scope=\"row\">".$row['ISBN']."</th>
-                    <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
-                    <td scope=\"row\">".$row['DATA_USCITA']."</th>
-                    <td scope=\"row\">".$row['N_PROROGHE']."</th>
-                  </tr>
-                </tbody>
-              </table>";
-          }
-          if(isset($_POST['Del'])){
-
-              $matricola =get_post($connection,'matricola1');
-              $isbn =get_post($connection,'isbn1');
-              $nCopia =get_post($connection,'nCopia1');
-
-              $elimina = "DELETE FROM PRESTITO WHERE  MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA='$nCopia';";
-              $result = mysqli_query($connection, $elimina);
-              //SI  ASSUME CHE L'unico motivo per cui ci sia un errore
-              //sia che un vincolo nonsia stato rispettato
-              //poichè gli altri possibilierrorisono gia stati gestiti prima
+              $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola';";
+              $result = mysqli_query($connection, $ricerca_prestito);
               if(!$result){
-                echo "Eliminazione Fallita <br>";
+                echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
               }
-              else{
-                echo "Prestito eliminato dal Database<br>";
-                //echo  "<script>$('#Aggiorna').hide()</script>";
+              echo "<table class=\"table\">
+                    <thead class='thead-dark'>
+                    <tr>
+                      <th scope=\"col\">ISBN</th>
+                      <th scope=\"col\">N° COPIA</th>
+                      <th scope=\"col\">DATA INIZIO PRESTITO</th>
+                      <th scope=\"col\">PROROGA N°</th>
+                    </tr>
+                  </thead>";
+              while($row = mysqli_fetch_array($result)){
+
+                  echo"<tbody>
+                    <tr>
+                      <td scope=\"row\">".$row['ISBN']."</th>
+                      <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                      <td scope=\"row\">".$row['DATA_USCITA']."</th>
+                      <td scope=\"row\">".$row['N_PROROGHE']."</th>
+                    </tr>
+                </tbody>";
               }
+
+            echo "</table>";
+
+          }
+          if($opzione == 'ISBN'){
+              $isbn=get_post($connection, 'Valore');
+
+              $ricerca_ISBN="SELECT * FROM LIBRO WHERE ISBN='$isbn';";
+              $resultISBN = mysqli_query($connection, $ricerca_ISBN);
+              if(!$resultISBN){
+                echo "Ricerca Libro Fallita".$resultISBN."<br>".$connection->error."<br>";
+              }
+              $row = mysqli_fetch_array($resultISBN);
+              echo "LIBRO:<br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
+
+              $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
+              $result = mysqli_query($connection, $ricerca_prestito);
+              if(!$result){
+                echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
+              }
+              echo "<table class=\"table\">
+                    <thead class='thead-dark'>
+                    <tr>
+                      <th scope=\"col\">MATRICOLA</th>
+                      <th scope=\"col\">N° COPIA</th>
+                      <th scope=\"col\">DATA INIZIO PRESTITO</th>
+                      <th scope=\"col\">PROROGA N°</th>
+                    </tr>
+                  </thead>";
+              while($row = mysqli_fetch_array($result)){
+
+                  echo"<tbody>
+                    <tr>
+                      <td scope=\"row\">".$row['MATRICOLA']."</th>
+                      <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                      <td scope=\"row\">".$row['DATA_USCITA']."</th>
+                      <td scope=\"row\">".$row['N_PROROGHE']."</th>
+                    </tr>
+                </tbody>";
+              }
+
+            echo "</table>";
             }
+          }
+
 
 
           //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
@@ -186,7 +211,7 @@
             return $connection->real_escape_string($_POST[$var]);
           }
           ?>
-          <input type='submit' value="Elimina" id='Delete' name='Del'>
+          <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
         </form>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
