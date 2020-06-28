@@ -58,7 +58,6 @@
                     <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
                     <a class="dropdown-item" href="restituzione.php" id='eliminaPrestito'>Restituzione</a>
                     <a class="dropdown-item" href="situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
-
                     </div>
                 </li>
                 </ul>
@@ -128,6 +127,10 @@
                 echo "Ricerca Studente Fallita".$resultStud."<br>".$connection->error."<br>";
               }
               $row = mysqli_fetch_array($resultStud);
+              if(is_null($row['ISBN'])){
+                echo "STUDENTE NON TROVATO";
+                return;
+              }
               echo "STUDENTE:<br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>VIA:  ".$row['VIA']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
 
               $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola';";
@@ -135,23 +138,44 @@
               if(!$result){
                 echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
               }
+
               echo "<table class=\"table\">
                     <thead class='thead-dark'>
                     <tr>
                       <th scope=\"col\">ISBN</th>
                       <th scope=\"col\">N° COPIA</th>
                       <th scope=\"col\">DATA INIZIO PRESTITO</th>
+                      <th scope=\"col\">DATA FINE PRESTITO</th>
                       <th scope=\"col\">PROROGA N°</th>
+                      <th scope=\"col\">Dipartimento Provenienza Prestito</th>
                     </tr>
                   </thead>";
-              while($row = mysqli_fetch_array($result)){
 
-                  echo"<tbody>
+              while($row = mysqli_fetch_array($result)){
+                $n_copia = $row['NUMERO_COPIA'];
+                $isbn = $row['ISBN'];
+                $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
+                $resultDip = mysqli_query($connection, $queryDip);
+                if(!$resultDip){
+                  echo "Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
+                }
+                $rowDip = mysqli_fetch_array($resultDip);
+                $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+                $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+                if(intval($row['N_PROROGHE']) == 1){
+                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
+                }
+                else if(intval($row['N_PROROGHE']) == 2){
+                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+                }
+                echo"<tbody>
                     <tr>
                       <td scope=\"row\">".$row['ISBN']."</th>
                       <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
-                      <td scope=\"row\">".$row['DATA_USCITA']."</th>
+                      <td scope=\"row\">".$data_uscita."</th>
+                      <td scope=\"row\">".$data_rientro."</th>
                       <td scope=\"row\">".$row['N_PROROGHE']."</th>
+                      <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
                     </tr>
                 </tbody>";
               }
@@ -168,6 +192,10 @@
                 echo "Ricerca Libro Fallita".$resultISBN."<br>".$connection->error."<br>";
               }
               $row = mysqli_fetch_array($resultISBN);
+              if(is_null($row['ISBN'])){
+                echo "ISBN NON TROVATO";
+                return;
+              }
               echo "LIBRO:<br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
 
               $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
@@ -175,23 +203,43 @@
               if(!$result){
                 echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
               }
+
               echo "<table class=\"table\">
                     <thead class='thead-dark'>
                     <tr>
                       <th scope=\"col\">MATRICOLA</th>
                       <th scope=\"col\">N° COPIA</th>
                       <th scope=\"col\">DATA INIZIO PRESTITO</th>
+                      <th scope=\"col\">DATA FINE PRESTITO</th>
                       <th scope=\"col\">PROROGA N°</th>
+                      <th scope=\"col\">Dipartimento Provenienza Prestito</th>
                     </tr>
                   </thead>";
               while($row = mysqli_fetch_array($result)){
-
+                $n_copia = $row['NUMERO_COPIA'];
+                $isbn = $row['ISBN'];
+                $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
+                $resultDip = mysqli_query($connection, $queryDip);
+                if(!$resultDip){
+                  echo "Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
+                }
+                $rowDip = mysqli_fetch_array($resultDip);
+                $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+                $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+                if(intval($row['N_PROROGHE']) == 1){
+                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
+                }
+                else if(intval($row['N_PROROGHE']) == 2){
+                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+                }
                   echo"<tbody>
                     <tr>
                       <td scope=\"row\">".$row['MATRICOLA']."</th>
                       <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
-                      <td scope=\"row\">".$row['DATA_USCITA']."</th>
+                      <td scope=\"row\">".$data_uscita."</th>
+                      <td scope=\"row\">".$data_rientro."</th>
                       <td scope=\"row\">".$row['N_PROROGHE']."</th>
+                      <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
                     </tr>
                 </tbody>";
               }
