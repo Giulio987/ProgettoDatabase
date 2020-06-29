@@ -46,7 +46,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="Studente/nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
                     <a class="dropdown-item" href="Studente/modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
-                    <a class="dropdown-item" href="eliminaStudente.php">Elimina Informazioni Studente</a>
+                    <a class="dropdown-item" href="Studente/restituzione.php">Elimina Informazioni Studente</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -54,10 +54,10 @@
                     Prestiti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="#" id='nuovoPrestito'>Registra Nuovo Prestito</a>
-                    <a class="dropdown-item" href="#" id = 'modificaPrestito'>Modifica Prestito</a>
-                    <a class="dropdown-item" href="#" id='eliminaPrestito'>Restituzione</a>
-                    <a class="dropdown-item" href="situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
+                    <a class="dropdown-item" href="Prestito/nuovoPrestito" id='nuovoPrestito'>Registra Nuovo Prestito</a>
+                    <a class="dropdown-item" href="Prestito/modificaPrestito" id = 'modificaPrestito'>Modifica Prestito</a>
+                    <a class="dropdown-item" href="Prestito/eliminaPrestito" id='eliminaPrestito'>Restituzione</a>
+                    <a class="dropdown-item" href="Prestito/situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
                     </div>
                 </li>
                 </ul>
