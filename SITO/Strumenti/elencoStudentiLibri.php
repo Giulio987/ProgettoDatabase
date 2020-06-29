@@ -54,10 +54,10 @@
                     Prestiti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
-                    <a class="dropdown-item" href="modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
-                    <a class="dropdown-item" href="restituzione.php" id='eliminaPrestito'>Restituzione</a>
-                    <a class="dropdown-item" href="situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
+                    <a class="dropdown-item" href="../Prestito/inserisciPrestito.php" id='nuovoPrestito'>Registra Nuovo Prestito</a>
+                    <a class="dropdown-item" href="../Prestito/modificaPrestito.php" id = 'modificaPrestito'>Modifica Prestito</a>
+                    <a class="dropdown-item" href="../Prestito/restituzione.php" id='eliminaPrestito'>Restituzione</a>
+                    <a class="dropdown-item" href="../Prestito/situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -65,8 +65,8 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Strumenti/elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
-                    <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                    <a class="dropdown-item" href="elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
+                    <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
                 </ul>

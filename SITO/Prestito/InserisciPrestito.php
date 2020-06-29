@@ -119,7 +119,6 @@
       });
   </script>
   <?php
-
   $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
   if(!$connection){
@@ -133,7 +132,7 @@
     $matricola=get_post($connection, 'matricola');
     $isbn=get_post($connection, 'isbn');
     $nCopia=get_post($connection, 'nCopia');
-    $iniziop=date('Y-m-d'); //Non Ha senso inserire unadata che non sia quella odierna
+    $iniziop=date('Y-m-d'); //Non Ha senso inserire una data che non sia quella odierna
 
     if(!is_numeric($matricola)){
       echo "Inserire Una Matricola Valida";

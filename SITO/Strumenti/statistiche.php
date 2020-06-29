@@ -69,10 +69,11 @@
                     <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
-                </ul>
+              </ul>
             </div>
-            </nav>
-            <div class="input-group">
-            </div>
-            </div>
-            </div>
+          </nav>
+        </div>
+      </div>
+    </div>  <!-- FINE DIV INDENTAZIONE -->
+  </body>
+</html>

@@ -1,4 +1,6 @@
 <?php
+//NON FUNZIONAPERCHENON é AGGIORNATO SUGLIINSERT: LUI VEDE SOLO QUELLI INSERITI E NON QUELLI GENERATI
+//e NON ANCORA INSERITI
     $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
     if(!$connection){
@@ -37,7 +39,7 @@
     //Si assume che se un libro ritorna allora il prestito
     //viene eliminato dal database
 
-    for($i = 0; $i < 150; $i++) {
+    for($i = 0; $i < 1000; $i++) {
         //tramite l'offset vengono generati gli studenti casualmente
         $offset = rand(0, $count - 1);
         $sql2 = "SELECT MATRICOLA FROM STUDENTE LIMIT 1 OFFSET $offset";
@@ -63,10 +65,9 @@
         //Scorrendo tutto il ciclo si verificano i libri gia in prestito così da evitare la generazione di duplicati
 
         while($prestiti = mysqli_fetch_array($resultControllo)){
-            if(strcmp($prestiti['ISBN'], $libro['ISBN']) == 0 && strcmp($prestiti['NUMERO_COPIA'], $libro['NUMERO_COPIA']) == 0){
+            if($prestiti['ISBN'] == $libro['ISBN'] && $prestiti['NUMERO_COPIA'] == $libro['NUMERO_COPIA']){
                 $controllo = true;
-                //echo $prestiti['ISBN']." è uguale a ".$libro['ISBN'];
-                // echo $prestiti['NUMERO_COPIA']." è uguale a ".$libro['NUMERO_COPIA'];
+                break;
             }
         }
         //controllo per verificare se sono gia in prestito il libro
@@ -77,7 +78,11 @@
 
         //output finale
         echo "INSERT INTO PRESTITO VALUES('".$libro['ISBN']."', ".$libro['NUMERO_COPIA'].", '".$studente['MATRICOLA']."', '".date("Y-m-d", $timestamp)."',0);"."<br>";
-
+        $queryInsert = "INSERT INTO PRESTITO VALUES('".$libro['ISBN']."', ".$libro['NUMERO_COPIA'].", '".$studente['MATRICOLA']."', '".date("Y-m-d", $timestamp)."',0);";
+        $resultInsert = mysqli_query($connection, $queryInsert);
+        if(!$resultInsert){
+          echo "Inserimento Fallito".$resultInsert."<br>".$connection->error."<br>";
+        }
     }
 
     mysqli_close($connection);
