@@ -85,20 +85,10 @@
             <input type='submit' value="Invia" >
         </form>
 
-        <script>
-          $(document).ready(function(){
-            $('#form').submit(function(){
-                if($('#matricola').val() == ''){
-                    alert('Inserire il campo obbligatorio: Matricola')
-                    return false
-                }
-            })
-          });
-      </script>
-      <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formDelete' method = 'POST'>
-        <input type='submit' value="Elimina" id='Delete' name='Del'>
-          <?php
+        <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formDelete' method = 'POST'>
 
+          <?php
+          $submit_value = 0;
           $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
           if(!$connection){
@@ -109,6 +99,7 @@
           }
 
           if(isset($_POST['matricola'])) {
+            $submit_value = 1;
             $matricola=get_post($connection, 'matricola');
 
             if(!is_numeric($matricola)){
@@ -130,7 +121,7 @@
               echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
             }
             $row = mysqli_fetch_array($result);
-            echo  "<input type=\"text\" name=\"matricola\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
+            echo  "<input type=\"text\" name=\"matricola1\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
             echo  "<script>$('#savedMatricola').hide()</script>";
             echo "<table class=\"table\">
                   <thead class='thead-dark'>
@@ -160,34 +151,50 @@
               </table>";
           }
           if(isset($_POST['Del'])){
-
-              $matricola =get_post($connection,'matricola');
+              $matricola =get_post($connection,'matricola1');
+              if(strlen($matricola) < 10){
+                $insertZero = "";
+                for($i = 0; $i < (10- strlen($matricola)); $i++){
+                  $insertZero = "0".$insertZero;
+                }
+                $matricola = $insertZero.$matricola;
+              }
               $elimina = "DELETE FROM STUDENTE WHERE MATRICOLA='$matricola'";
               $result = mysqli_query($connection, $elimina);
               //SI  ASSUME CHE L'unico motivo per cui ci sia un errore
-              //sia che un vincolo nonsia stato rispettato
+              //sia che un vincolo non sia stato rispettato
               //poichè gli altri possibilierrorisono gia stati gestiti prima
               if(!$result){
                 echo "Eliminazione Fallita: Prestito Ancora In Corso <br>";
               }
               else{
                 echo "Studente eliminato dal Database<br>";
-                //echo  "<script>$('#Aggiorna').hide()</script>";
               }
             }
 
-
-          //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
           mysqli_close($connection);
-
-
 
           function get_post($connection, $var){
             return $connection->real_escape_string($_POST[$var]);
           }
           ?>
-
+          <input type='submit' value="Elimina" id='Delete' name='Del'>
         </form>
+        <script>
+          $(document).ready(function(){
+            $('#Delete').hide();
+            <?php
+            if($submit_value == 1){ ?>
+                document.getElementById('Delete').style.display = "block";
+            <?php } ?>
+            $('#form').submit(function(){
+                if($('#matricola').val() == ''){
+                    alert('Inserire il campo obbligatorio: Matricola')
+                    return false
+                }
+            })
+          });
+      </script>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

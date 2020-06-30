@@ -84,22 +84,11 @@
         <input type='submit' value="Invia" id='submit' name="Inv">
     </form>
 
-    <script>
-    $(document).ready(function(){
-        //$('#Aggiorna').hide()
-        $('#form').submit(function(){
-            if($('#matricola').val() == ''){
-                alert('Inserire La Matricola dello studente da Ricercare')
-                return false
-            }
 
-        })
-    })
-    </script>
     <form action="modificaStudente.php" id = 'formUpdate' method = 'POST'>
-      <input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'>
-        <?php
 
+        <?php
+        $submit_value = 0;
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
         if(!$connection){
@@ -109,6 +98,7 @@
           exit(-1);
         }
         if(isset($_POST['matricola'])) {
+          $submit_value = 1;
           $matricola=get_post($connection, 'matricola');
 
           if(!is_numeric($matricola)){
@@ -129,6 +119,11 @@
               echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
             }
           $row = mysqli_fetch_array($result);
+          //COntrollo se lamatricola esiste nel database
+          if(is_null($row['MATRICOLA'])){
+            echo "Matricola non trovata";
+            return;
+          }
           //Per salvare la matricola precedente
           echo  "<input type=\"text\" name=\"matricolaVecchia\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
           echo  "<script>$('#savedMatricola').hide()</script>";
@@ -140,9 +135,10 @@
           echo  "<input type=\"text\" name=\"civico\" value='".$row['CIVICO']."'><br>";
           echo  "<input type=\"text\" name=\"cap\" value='".$row['CAP']."'><br>";
           echo  "<input type=\"text\" name=\"citta\" value='".$row['CITTA']."'><br>";
+          echo "<script>$('#Aggiorna').show()</script>";
 
         }
-          if(isset($_POST['Agg'])){
+        if(isset($_POST['Agg'])){
             if(isset($_POST['matricola2']) && isset($_POST['nome']) && isset($_POST['cognome'])){
               $matricola=get_post($connection, 'matricolaVecchia');
               $matricola2=get_post($connection, 'matricola2');
@@ -164,21 +160,29 @@
                 //echo  "<script>$('#Aggiorna').hide()</script>";
               }
             }
-          }
-
-
-
-
-        mysqli_close($connection);
-
-
-
+          }mysqli_close($connection);
         function get_post($connection, $var){
           return $connection->real_escape_string($_POST[$var]);
         }
         ?>
-
+        <input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'>
       </form>
+      <script type="text/javascript">
+      $(document).ready(function(){
+        $('#Aggiorna').hide();
+        <?php
+        if($submit_value == 1){ ?>
+            document.getElementById('Aggiorna').style.display = "block";
+           <?php } ?>
+
+          $('#form').submit(function(){
+              if($('#matricola').val() == ''){
+                  alert('Inserire La Matricola dello studente da Ricercare')
+                  return false
+              }
+          })
+      })
+      </script>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

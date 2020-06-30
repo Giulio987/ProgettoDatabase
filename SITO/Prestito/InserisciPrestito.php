@@ -153,17 +153,22 @@
     //Scorrendo tutto il ciclo si verificano i libri gia in prestito così da evitare duplicati
     while($prestiti = mysqli_fetch_array($resultControllo)){
         if(strcmp($prestiti['ISBN'], $isbn) == 0 && strcmp($prestiti['NUMERO_COPIA'], $nCopia) == 0){
-            echo "Prestito già in corso<br>";
+            echo "Libro già in Prestito già in corso<br>";
             mysqli_close($connection);
             exit(-1);
         }
     }
-    $nuovoPrestito="INSERT INTO PRESTITO VALUES('$isbn','$nCopia','$matricola','$iniziop')";
+    $nuovoPrestito="INSERT INTO PRESTITO VALUES('$isbn','$nCopia','$matricola','$iniziop',0)";
     $result = mysqli_query($connection, $nuovoPrestito);
+
+    //PROMEMORIA:
+    //CONTROLLARE TUTTI GLI IF/ELSE PER VEDERE SE CHIUDONO CORRETTAMENTE
+    //LA CONNESSIONE AL DB
     if(!$result){
-      echo "Inserimento Fallito".$result."<br>".$connection->error."<br>";
+      echo "Inserimento Fallito: Inserire Informazioni Valide<br>";
+    }else{
+      echo "Prestito a buon fine";
     }
-    echo "Prestito a buon fine";
   }
   //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
   mysqli_close($connection);
