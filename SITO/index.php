@@ -60,6 +60,16 @@
                     <a class="dropdown-item" href="Prestito/situazionePrestiti.php" id='situazionePrestiti'>Situazione prestiti</a>
                     </div>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Strumenti Di Ricerca
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="Strumenti/elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                    <a class="dropdown-item" href="Strumenti/elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                    <a class="dropdown-item" href="Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                  </div>
+                </li>
                 </ul>
             </div>
             </nav>
@@ -70,26 +80,10 @@
 
 
 
-    <!--Container per tutte le pagine esterne
-        <div id="ContainerBody"></div>
-         Necessario inserirlo qui  questo javascript
-        CON QUESTO VA
-        <script type="text/jscript">
-        if(window.location.hash === "#NewStud"){
-          $('#ContainerBody').load('Studente/nuovoStudente.php')
-        }
-        if(window.location.hash === "#ModifStud"){
-          $('#ContainerBody').load('Studente/modificaStudente.php')
-        }
-        if(window.location.hash === "#DeletStu"){
-          $('#ContainerBody').load('Studente/eliminaStudente.php')
-        }
-      </script>-->
+
+
     </div>
-
-
   </body>
-
 </html>
 <?php
     $connection = mysqli_connect("127.0.0.1","root","");

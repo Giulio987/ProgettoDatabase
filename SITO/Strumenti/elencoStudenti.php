@@ -83,7 +83,6 @@
 
             <fieldset>
             <label>NOME STUDENTE <input id ='Valore' type='text' name='Valore'></label><br>
-            <label>COGNOME STUDENTE <input id ='Valore2' type='text' name='Valore2'></label><br>
             </fieldset>
 
       <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
@@ -98,41 +97,18 @@
           exit(-1);
           }
 
-          $ricerca_studente = "";
               //DIPENDE SE PER "PARZIALMENTE" NELLA CONSEGNA SI INTENDE ANCHE
               //SOLO INSERIRE LA PARTE CENTRALE DEL NOME
               if(isset($_POST['Valore'])) {
-                $NomeStud=get_post($connection, 'Valore');
-                $ricerca_studente="SELECT * FROM STUDENTE WHERE NOME LIKE '%$NomeStud%';";
-              }
-
-              if(isset($_POST['Valore2'])) {
-                $CognomeStud=get_post($connection, 'Valore2');
-                $ricerca_studente="SELECT * FROM STUDENTE WHERE COGNOME LIKE '%$CognomeStud%';";
-              }
-
-              if(isset($_POST['Valore2']) && isset($_POST['Valore'])) {
-                $NomeStud=get_post($connection, 'Valore');
-                $CognomeStud=get_post($connection, 'Valore2');
-                $ricerca_studente="SELECT * FROM STUDENTE WHERE NOME LIKE '%$NomeStud%' COGNOME LIKE '%$CognomeStud%';";
-              }
-              if(!isset($_POST['Valore2']) && !isset($_POST['Valore'])) {
-                echo "Inserire almeno uno dei due campi<br>";
-                return;
-              }
+                $Studente=get_post($connection, 'Valore');
+                //NON IMPORTA L'Ordine di nome o cognome o parte di essi o solo uno dei due
+                $ricerca_studente="SELECT * FROM STUDENTE WHERE CONCAT(NOME,  ' ', COGNOME) LIKE  '$Studente%' OR CONCAT(COGNOME,  ' ', NOME) LIKE '$Studente%';";
 
               $resultStud = mysqli_query($connection, $ricerca_studente);
               if(!$resultStud){
                 echo "Ricerca Studente Fallita".$resultStud."<br>".$connection->error."<br>";
               }
-              $row = mysqli_fetch_array($resultStud);
-              if(is_null($row['MATRICOLA'])){
-                echo "STUDENTE NON TROVATO";
-                return;
-              }
               while($row = mysqli_fetch_array($resultStud)){
-
-
                 echo "STUDENTE:<br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>VIA:  ".$row['VIA']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
                 $matricola = $row['MATRICOLA'];
                 $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola';";
@@ -182,9 +158,9 @@
                   </tbody>";
                 }
 
-              echo "</table>";
+              echo "</table> <br> <hr>";
             }
-
+          }
 
           //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
           mysqli_close($connection);

@@ -105,7 +105,10 @@
           echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
           }
-
+          //Visto che i libri hanno tutti un titolo unico verificato con la query:
+          //USE Biblioteca;SELECT TITOLO, COUNT(*) FROM LIBRO GROUP BY  TITOLO HAVING COUNT(*) > 1;
+          //Non è necessario avvenga una verifica su quale libro si desideri recuperare
+          if (isset($_POST['Valore'])){
               $NomeLibro=get_post($connection, 'Valore');
 
               $ricerca_libro="SELECT * FROM LIBRO WHERE TITOLO LIKE '%$NomeLibro%';";
@@ -167,8 +170,7 @@
               }
 
             echo "</table>";
-
-          //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
+            }
           mysqli_close($connection);
 
 
