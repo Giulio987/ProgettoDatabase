@@ -44,9 +44,9 @@
                     Studenti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
-                    <a class="dropdown-item" href="modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
-                    <a class="dropdown-item" href="eliminaStudente.php">Elimina Informazioni Studente</a>
+                    <a class="dropdown-item" href="../Studente/nuovoStudente.php" id='nuovoStudente'>Registra Nuovo Studente</a>
+                    <a class="dropdown-item" href="../Studente/modificaStudente.php" id = 'modificaStudente'>Modifica Informazioni Studente</a>
+                    <a class="dropdown-item" href="../Studente/eliminaStudente.php">Elimina Informazioni Studente</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -77,19 +77,18 @@
         </div>
     </div>
     </div>
-        <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
+    <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
+
+
 
             <fieldset>
-            <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+            <label>NOME STUDENTE <input id ='Valore' type='text' name='Valore'></label><br>
+            <label>COGNOME STUDENTE <input id ='Valore2' type='text' name='Valore2'></label><br>
             </fieldset>
 
-            <input type='submit' value="Invia" >
-        </form>
-
-        <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formDelete' method = 'POST'>
-
+      <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
+      <br>
           <?php
-          $submit_value = 0;
           $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
           if(!$connection){
@@ -99,103 +98,105 @@
           exit(-1);
           }
 
-          if(isset($_POST['matricola'])) {
-            $submit_value = 1;
-            $matricola=get_post($connection, 'matricola');
-
-            if(!is_numeric($matricola)){
-              echo "Inserire Una Matricola Valida";
-              mysqli_close($connection);
-              exit(-1);
-            }
-            if(strlen($matricola) < 10){
-              $insertZero = "";
-              for($i = 0; $i < (10- strlen($matricola)); $i++){
-                $insertZero = "0".$insertZero;
+          $ricerca_studente = "";
+              //DIPENDE SE PER "PARZIALMENTE" NELLA CONSEGNA SI INTENDE ANCHE
+              //SOLO INSERIRE LA PARTE CENTRALE DEL NOME
+              if(isset($_POST['Valore'])) {
+                $NomeStud=get_post($connection, 'Valore');
+                $ricerca_studente="SELECT * FROM STUDENTE WHERE NOME LIKE '%$NomeStud%';";
               }
-              $matricola = $insertZero.$matricola;
-            }
 
-            $ricerca_studente="SELECT * FROM STUDENTE WHERE MATRICOLA=$matricola";
-            $result = mysqli_query($connection, $ricerca_studente);
-            if(!$result){
-              echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
-            }
-            $row = mysqli_fetch_array($result);
-            echo  "<input type=\"text\" name=\"matricola1\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
-            echo  "<script>$('#savedMatricola').hide()</script>";
-            echo "<table class=\"table\">
-                  <thead class='thead-dark'>
-                  <tr>
-                    <th scope=\"col\">MATRICOLA</th>
-                    <th scope=\"col\">NOME</th>
-                    <th scope=\"col\">COGNOME</th>
-                    <th scope=\"col\">TELEFONO</th>
-                    <th scope=\"col\">VIA</th>
-                    <th scope=\"col\">CIVICO</th>
-                    <th scope=\"col\">CAP</th>
-                    <th scope=\"col\">CITTA</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope=\"row\">".$row['MATRICOLA']."</th>
-                    <td scope=\"row\">".$row['NOME']."</th>
-                    <td scope=\"row\">".$row['COGNOME']."</th>
-                    <td scope=\"row\">".$row['NUMERO_TELEFONO']."</th>
-                    <td scope=\"row\">".$row['VIA']."</th>
-                    <td scope=\"row\">".$row['CIVICO']."</th>
-                    <td scope=\"row\">".$row['CAP']."</th>
-                    <td scope=\"row\">".$row['CITTA']."</th>
-                  </tr>
-                </tbody>
-              </table>";
-          }
-          if(isset($_POST['Del'])){
-              $matricola =get_post($connection,'matricola1');
-              if(strlen($matricola) < 10){
-                $insertZero = "";
-                for($i = 0; $i < (10- strlen($matricola)); $i++){
-                  $insertZero = "0".$insertZero;
+              if(isset($_POST['Valore2'])) {
+                $CognomeStud=get_post($connection, 'Valore2');
+                $ricerca_studente="SELECT * FROM STUDENTE WHERE COGNOME LIKE '%$CognomeStud%';";
+              }
+
+              if(isset($_POST['Valore2']) && isset($_POST['Valore'])) {
+                $NomeStud=get_post($connection, 'Valore');
+                $CognomeStud=get_post($connection, 'Valore2');
+                $ricerca_studente="SELECT * FROM STUDENTE WHERE NOME LIKE '%$NomeStud%' COGNOME LIKE '%$CognomeStud%';";
+              }
+              if(!isset($_POST['Valore2']) && !isset($_POST['Valore'])) {
+                echo "Inserire almeno uno dei due campi<br>";
+                return;
+              }
+
+              $resultStud = mysqli_query($connection, $ricerca_studente);
+              if(!$resultStud){
+                echo "Ricerca Studente Fallita".$resultStud."<br>".$connection->error."<br>";
+              }
+              $row = mysqli_fetch_array($resultStud);
+              if(is_null($row['MATRICOLA'])){
+                echo "STUDENTE NON TROVATO";
+                return;
+              }
+              while($row = mysqli_fetch_array($resultStud)){
+
+
+                echo "STUDENTE:<br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>VIA:  ".$row['VIA']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
+                $matricola = $row['MATRICOLA'];
+                $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola';";
+                $result = mysqli_query($connection, $ricerca_prestito);
+                if(!$result){
+                  echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
                 }
-                $matricola = $insertZero.$matricola;
-              }
-              $elimina = "DELETE FROM STUDENTE WHERE MATRICOLA='$matricola'";
-              $result = mysqli_query($connection, $elimina);
-              //SI  ASSUME CHE L'unico motivo per cui ci sia un errore
-              //sia che un vincolo non sia stato rispettato
-              //poichè gli altri possibilierrorisono gia stati gestiti prima
-              if(!$result){
-                echo "Eliminazione Fallita: Prestito Ancora In Corso <br>";
-              }
-              else{
-                echo "Studente eliminato dal Database<br>";
-              }
+
+                echo "<table class=\"table\">
+                      <thead class='thead-dark'>
+                      <tr>
+                        <th scope=\"col\">ISBN</th>
+                        <th scope=\"col\">N° COPIA</th>
+                        <th scope=\"col\">DATA INIZIO PRESTITO</th>
+                        <th scope=\"col\">DATA FINE PRESTITO</th>
+                        <th scope=\"col\">PROROGA N°</th>
+                        <th scope=\"col\">Dipartimento Provenienza Prestito</th>
+                      </tr>
+                    </thead>";
+
+                while($row = mysqli_fetch_array($result)){
+                  $n_copia = $row['NUMERO_COPIA'];
+                  $isbn = $row['ISBN'];
+                  $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
+                  $resultDip = mysqli_query($connection, $queryDip);
+                  if(!$resultDip){
+                    echo "Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
+                  }
+                  $rowDip = mysqli_fetch_array($resultDip);
+                  $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+                  $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+                  if(intval($row['N_PROROGHE']) == 1){
+                    $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
+                  }
+                  else if(intval($row['N_PROROGHE']) == 2){
+                    $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+                  }
+                  echo"<tbody>
+                      <tr>
+                        <td scope=\"row\">".$row['ISBN']."</th>
+                        <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                        <td scope=\"row\">".$data_uscita."</th>
+                        <td scope=\"row\">".$data_rientro."</th>
+                        <td scope=\"row\">".$row['N_PROROGHE']."</th>
+                        <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
+                      </tr>
+                  </tbody>";
+                }
+
+              echo "</table>";
             }
 
+
+          //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
           mysqli_close($connection);
+
+
 
           function get_post($connection, $var){
             return $connection->real_escape_string($_POST[$var]);
           }
           ?>
-          <input type='submit' value="Elimina" id='Delete' name='Del'>
+
         </form>
-        <script>
-          $(document).ready(function(){
-            $('#Delete').hide();
-            <?php
-            if($submit_value == 1){ ?>
-                document.getElementById('Delete').style.display = "block";
-            <?php } ?>
-            $('#form').submit(function(){
-                if($('#matricola').val() == ''){
-                    alert('Inserire il campo obbligatorio: Matricola')
-                    return false
-                }
-            })
-          });
-      </script>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

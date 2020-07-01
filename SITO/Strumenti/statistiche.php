@@ -65,8 +65,9 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
-                    <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                      <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                      <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                      <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
               </ul>
@@ -74,6 +75,69 @@
           </nav>
         </div>
       </div>
+      <?php
+      //PROMEMORIA:
+      //
+      //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
+      //DA POTERLA RICHIAMARE QUANDO SI VUOLE
+      //E ANCHE LA FUNZIONE GET_POST
+        $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
+        if(!$connection){
+          echo "Non si connette".PHP_EOL;
+          echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
+          echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+          exit(-1);
+        }
+        $queryPrestiti = "SELECT * FROM PRESTITO";
+        $result = mysqli_query($connection,$queryPrestiti);
+        if(!$result){
+          echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
+        }
+        echo "<table class=\"table\">
+              <thead class='thead-dark'>
+              <tr>
+                <th scope=\"col\">ISBN</th>
+                <th scope=\"col\">N° COPIA</th>
+                <th scope=\"col\">DATA INIZIO PRESTITO</th>
+                <th scope=\"col\">DATA FINE PRESTITO</th>
+                <th scope=\"col\">PROROGA N°</th>
+                <th scope=\"col\">Dipartimento Provenienza Prestito</th>
+              </tr>
+            </thead>";
+        while($row = mysqli_fetch_array($result)){
+              $n_copia = $row['NUMERO_COPIA'];
+              $isbn = $row['ISBN'];
+              $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
+              $resultDip = mysqli_query($connection, $queryDip);
+              if(!$resultDip){
+                echo "Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
+              }
+              $rowDip = mysqli_fetch_array($resultDip);
+              $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+              $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+              if(intval($row['N_PROROGHE']) == 1){
+                $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
+              }
+              else if(intval($row['N_PROROGHE']) == 2){
+                $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+              }
+              echo"<tbody>
+                  <tr>
+                    <td scope=\"row\">".$row['ISBN']."</th>
+                    <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                    <td scope=\"row\">".$data_uscita."</th>
+                    <td scope=\"row\">".$data_rientro."</th>
+                    <td scope=\"row\">".$row['N_PROROGHE']."</th>
+                    <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
+                  </tr>
+              </tbody>";
+            }
+
+          echo "</table>";
+        ?>
+
+
+
     </div>  <!-- FINE DIV INDENTAZIONE -->
   </body>
 </html>

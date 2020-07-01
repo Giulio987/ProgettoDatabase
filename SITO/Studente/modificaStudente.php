@@ -65,8 +65,9 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Strumenti/elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
-                    <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                      <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                      <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                      <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
                 </ul>
@@ -119,7 +120,7 @@
               echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
             }
           $row = mysqli_fetch_array($result);
-          //COntrollo se lamatricola esiste nel database
+          //Controllo se lamatricola esiste nel database
           if(is_null($row['MATRICOLA'])){
             echo "Matricola non trovata";
             return;

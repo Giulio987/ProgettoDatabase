@@ -65,8 +65,9 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Strumenti/elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
-                    <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                      <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                      <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                      <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
                 </ul>
@@ -92,21 +93,10 @@
         </fieldset>
         <input type='submit' value="Invia" id='submit' name="Inv">
       </form>
-    <script>
-    $(document).ready(function(){
-        //$('#Aggiorna').hide()
-        $('#form').submit(function(){
-            if($('#matricola').val() == '' || $('#nCopia').val() == '' || $('#isbn').val() == ''){
-                alert('Inserire Tutti i campi per la ricerca')
-                return false
-            }
+      <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formUpdate' method = 'POST'>
 
-        })
-    })
-    </script>
-    <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formUpdate' method = 'POST'>
-      <input type='submit' value="Proroga" id='Proroga' name='Pror'>
-        <?php
+      <?php
+        $submit_value = 0;
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
         if(!$connection){
@@ -141,6 +131,14 @@
 
           }
           $row = mysqli_fetch_array($resAll);
+
+          //CONTROLLO PER VERIFICARE VALIDITà DEI DATI
+          if(is_null($row['MATRICOLA'])){
+            echo "Prestito Non Trovato";
+            return;
+          }
+
+
           $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
           echo "DATA INIZIO PRESTITO ".$data_uscita."<br>";
           $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
@@ -170,6 +168,7 @@
 
         }
         if(isset($_POST['Pror'])){
+          $submit_value = 1;
           $matricola = get_post($connection, 'matricola1');
           $isbn = get_post($connection, 'isbn1');
           $nCopia=  get_post($connection, 'nCopia1');
@@ -210,8 +209,24 @@
         function get_post($connection, $var){
           return $connection->real_escape_string($_POST[$var]);
         }
-        ?>
+      ?>
+        <script>
+        $(document).ready(function(){
+          $('#Proroga').hide();
+          <?php
+          if($submit_value == 1){ ?>
+              document.getElementById('Aggiorna').style.display = "block";
+             <?php } ?>
+            $('#form').submit(function(){
+                if($('#matricola').val() == '' || $('#nCopia').val() == '' || $('#isbn').val() == ''){
+                    alert('Inserire Tutti i campi per la ricerca')
+                    return false
+                }
 
+            })
+        })
+        </script>
+        <input type='submit' value="Proroga" id='Proroga' name='Pror'>
       </form>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>

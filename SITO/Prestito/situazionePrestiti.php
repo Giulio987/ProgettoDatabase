@@ -65,8 +65,9 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Strumenti/elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
-                    <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                      <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                      <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                      <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
                 </ul>
@@ -76,7 +77,6 @@
         </div>
     </div>
     </div>
-    <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
         SITUAZIONE DEI PRESTITI:
         <br>
         <?php
@@ -100,7 +100,7 @@
           echo "<table class=\"table\">
                 <thead class='thead-dark'>
                 <tr>
-                  <th scope=\"col\">ISBN</th>
+                  <th scope=\"col\">LINGUA</th>
                   <th scope=\"col\">N° COPIA</th>
                   <th scope=\"col\">DATA INIZIO PRESTITO</th>
                   <th scope=\"col\">DATA FINE PRESTITO</th>
@@ -139,8 +139,6 @@
 
             echo "</table>";
           ?>
-
-        </form>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

@@ -65,7 +65,8 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="elencoStudentiLibri.php" id='punto1e2'>Elenco Studenti e Libri</a>
+                    <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                    <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
                     <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
@@ -78,18 +79,7 @@
     </div>
     <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
-      <div class="input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="inputGroupSelect01">Scegli</label>
-        </div>
-        <select class="custom-select" id="inputGroupSelect01" name="scelta">
-          <option selected name="Selected" value="Selected">SCEGLI L'OPZIONE</option>
-          <option value="NomeStud" name='NomeStud'>NOME STUDENTE</option>
-          <option value="NomeLibro" name = 'NomeLibro'>NOME DEL LIBRO</option>
-        </select>
-        </div>
-
-            INSERIRE IL NOME DELLO STUDENTE O IL NOME DEL LIBRO
+            INSERIRE IL NOME DEL LIBRO
             <fieldset>
             <label>INSERIRE: <input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
@@ -115,75 +105,7 @@
           echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
           }
-          if(isset($_POST["scelta"])){
-            $opzione = $_POST["scelta"];
-            if($opzione == 'NomeStud') {
-              $NomeStud=get_post($connection, 'Valore');
-              //DIPENDE SE PER "PARZIALMENTE" NELLA CONSEGNA SI INTENDE ANCHE
-              //SOLO INSERIRE LA PARTE CENTRALE DELNOME
-              $ricerca_studente="SELECT * FROM STUDENTE WHERE NOME LIKE '%$NomeStud%';";
-              $resultStud = mysqli_query($connection, $ricerca_studente);
-              if(!$resultStud){
-                echo "Ricerca Studente Fallita".$resultStud."<br>".$connection->error."<br>";
-              }
-              $row = mysqli_fetch_array($resultStud);
-              if(is_null($row['MATRICOLA'])){
-                echo "STUDENTE NON TROVATO";
-                return;
-              }
-              echo "STUDENTE:<br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>VIA:  ".$row['VIA']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
-              $matricola = $row['MATRICOLA'];
-              $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola';";
-              $result = mysqli_query($connection, $ricerca_prestito);
-              if(!$result){
-                echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
-              }
 
-              echo "<table class=\"table\">
-                    <thead class='thead-dark'>
-                    <tr>
-                      <th scope=\"col\">ISBN</th>
-                      <th scope=\"col\">N° COPIA</th>
-                      <th scope=\"col\">DATA INIZIO PRESTITO</th>
-                      <th scope=\"col\">DATA FINE PRESTITO</th>
-                      <th scope=\"col\">PROROGA N°</th>
-                      <th scope=\"col\">Dipartimento Provenienza Prestito</th>
-                    </tr>
-                  </thead>";
-
-              while($row = mysqli_fetch_array($result)){
-                $n_copia = $row['NUMERO_COPIA'];
-                $isbn = $row['ISBN'];
-                $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
-                $resultDip = mysqli_query($connection, $queryDip);
-                if(!$resultDip){
-                  echo "Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
-                }
-                $rowDip = mysqli_fetch_array($resultDip);
-                $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
-                $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
-                if(intval($row['N_PROROGHE']) == 1){
-                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
-                }
-                else if(intval($row['N_PROROGHE']) == 2){
-                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
-                }
-                echo"<tbody>
-                    <tr>
-                      <td scope=\"row\">".$row['ISBN']."</th>
-                      <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
-                      <td scope=\"row\">".$data_uscita."</th>
-                      <td scope=\"row\">".$data_rientro."</th>
-                      <td scope=\"row\">".$row['N_PROROGHE']."</th>
-                      <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
-                    </tr>
-                </tbody>";
-              }
-
-            echo "</table>";
-
-          }
-          if($opzione == 'NomeLibro'){
               $NomeLibro=get_post($connection, 'Valore');
 
               $ricerca_libro="SELECT * FROM LIBRO WHERE TITOLO LIKE '%$NomeLibro%';";
@@ -245,13 +167,6 @@
               }
 
             echo "</table>";
-            }
-            if($opzione == 'Selected'){
-              echo "INSERIRE UNA DELLE DUE OPZIONI SOPRA";
-            }
-          }
-
-
 
           //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
           mysqli_close($connection);
