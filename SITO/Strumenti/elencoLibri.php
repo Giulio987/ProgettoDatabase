@@ -65,9 +65,9 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="../Strumenti/elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
-                    <a class="dropdown-item" href="../Strumenti/elencoLibri.php" id='punto1e2'>Elenco Libri</a>
-                    <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                    <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                    <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                    <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
                 </ul>
@@ -111,7 +111,7 @@
           //Non è necessario avvenga una verifica su quale libro si desideri recuperare
           if (isset($_POST['Valore'])){
               $NomeLibro=get_post($connection, 'Valore');
-
+              strtoupper($NomeLibro[0]);
               $ricerca_libro="SELECT * FROM LIBRO WHERE TITOLO LIKE '%$NomeLibro%';";
               $resultLibro = mysqli_query($connection, $ricerca_libro);
               if(!$resultLibro){

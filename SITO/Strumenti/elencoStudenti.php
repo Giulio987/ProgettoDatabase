@@ -77,7 +77,8 @@
         </div>
     </div>
     </div>
-    <div class="interno col md-12 text-center"  >
+
+    <div class="interno col md-12 text-center" >
     <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
 
@@ -103,6 +104,7 @@
               //SOLO INSERIRE LA PARTE CENTRALE DEL NOME
               if(isset($_POST['Valore'])) {
                 $Studente=get_post($connection, 'Valore');
+                strtoupper($Studente[0]);
                 //NON IMPORTA L'Ordine di nome o cognome o parte di essi o solo uno dei due
                 $ricerca_studente="SELECT * FROM STUDENTE WHERE CONCAT(NOME,  ' ', COGNOME) LIKE  '$Studente%' OR CONCAT(COGNOME,  ' ', NOME) LIKE '$Studente%';";
 
