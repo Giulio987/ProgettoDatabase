@@ -101,9 +101,9 @@
           $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
           if(!$connection){
-          echo "Non si connette".PHP_EOL;
-          echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-          echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+          echo "<br><b>Non si connette".PHP_EOL;
+          echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
+          echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
           }
           //Visto che i libri hanno tutti un titolo unico verificato con la query:
@@ -127,7 +127,7 @@
               $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
               $result = mysqli_query($connection, $ricerca_prestito);
               if(!$result){
-                echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
+                echo "<br><b>Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
               }
 
               echo "<table border=\"1\" class=\"table\">
@@ -182,6 +182,31 @@
           ?>
 
         </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
       </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
