@@ -106,6 +106,7 @@
           exit(-1);
         }
         if(isset($_POST['matricola'])  && isset($_POST['nCopia']) && isset($_POST['isbn'])) {
+          $submit_value = 1;
           $matricola=get_post($connection, 'matricola');
           $isbn=get_post($connection, 'isbn');
           $nCopia=get_post($connection, 'nCopia');
@@ -126,7 +127,7 @@
           $queryAll = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA=$nCopia;";
           $resAll = mysqli_query($connection, $queryAll);
           if(!$resAll){
-            echo "recupero Data Fallito".$resAll."<br>".$connection->error."<br>";
+            echo "recupero Informazioni Fallito<br>";
             exit(-1);
 
           }
@@ -159,16 +160,16 @@
           }
           echo "DATA LIMITE PRESTITO ".$data_rientro;
           //PER MANTENERE INPUT
-          echo  "<input type=\"text\" name=\"matricola1\" id='matricola1' value='".get_post($connection, 'matricola');
+          echo  "<input type=\"text\" name=\"matricola1\" id='matricola1' value='".get_post($connection, 'matricola')."'>";
           echo  "<script>$('#matricola1').hide()</script>";
-          echo  "<input type=\"text\" name=\"isbn1\" id='isbn1' value='".get_post($connection, 'isbn');
+          echo  "<input type=\"text\" name=\"isbn1\" id='isbn1' value='".get_post($connection, 'isbn')."'>";
           echo  "<script>$('#isbn1').hide()</script>";
-          echo  "<input type=\"text\" name=\"nCopia1\" id='nCopia1' value='".get_post($connection, 'nCopia');
+          echo  "<input type=\"text\" name=\"nCopia1\" id='nCopia1' value='".get_post($connection, 'nCopia')."'>";
           echo  "<script>$('#nCopia1').hide()</script>";
 
         }
         if(isset($_POST['Pror'])){
-          $submit_value = 1;
+
           $matricola = get_post($connection, 'matricola1');
           $isbn = get_post($connection, 'isbn1');
           $nCopia=  get_post($connection, 'nCopia1');
@@ -210,24 +211,25 @@
           return $connection->real_escape_string($_POST[$var]);
         }
       ?>
-        <script>
-        $(document).ready(function(){
-          $('#Proroga').hide();
-          <?php
-          if($submit_value == 1){ ?>
-              document.getElementById('Aggiorna').style.display = "block";
-             <?php } ?>
-            $('#form').submit(function(){
-                if($('#matricola').val() == '' || $('#nCopia').val() == '' || $('#isbn').val() == ''){
-                    alert('Inserire Tutti i campi per la ricerca')
-                    return false
-                }
 
-            })
-        })
-        </script>
         <input type='submit' value="Proroga" id='Proroga' name='Pror'>
       </form>
+      <script>
+      $(document).ready(function(){
+        $('#Proroga').hide();
+        <?php
+        if($submit_value == 1){ ?>
+            document.getElementById('Proroga').style.display = "block";
+           <?php } ?>
+          $('#form').submit(function(){
+              if($('#matricola').val() == '' || $('#nCopia').val() == '' || $('#isbn').val() == ''){
+                  alert('Inserire Tutti i campi per la ricerca')
+                  return false
+              }
+
+          })
+      })
+      </script>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

@@ -14,10 +14,10 @@ body
 .interno
 {
         background-image:url(../img/Interno.jpg);
-	       border: 1px solid ;
+	      border: 1px solid ;
 }
 
-  .content {
+.content {
         float: none;
         margin: 0 auto;
     }
