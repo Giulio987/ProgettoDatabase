@@ -77,17 +77,20 @@
         </div>
     </div>
     </div>
+    <div class="interno text-center col md-12"  >
+       <br><b> INSERISCI LE INFO SUL LIBRO RESTITUITO:<br><br>
         <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
             <fieldset>
-            <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+            <label><b>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
             </fieldset>
             <fieldset>
-            <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+            <label><b>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
             </fieldset>
             <fieldset>
-            <label>Numero Copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+            <label><b>Numero Copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
             </fieldset>
+            <br>
             <input type='submit' value="Invia" >
         </form>
 
@@ -105,7 +108,7 @@
         <input type='submit' value="Elimina" id='Delete' name='Del'>
           <?php
 
-          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
+          $connection = mysqli_connect("127.0.0.1","root","2370","Biblioteca");
 
           if(!$connection){
           echo "Non si connette".PHP_EOL;
@@ -199,6 +202,27 @@
           ?>
 
         </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        </div>
+
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>
