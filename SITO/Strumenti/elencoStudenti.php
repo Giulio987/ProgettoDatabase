@@ -91,7 +91,7 @@
       <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
       <br>
           <?php
-          $connection = mysqli_connect("127.0.0.1","root","2370","Biblioteca");
+          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
           if(!$connection){
           echo "Non si connette".PHP_EOL;
