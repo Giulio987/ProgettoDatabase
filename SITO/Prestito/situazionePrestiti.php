@@ -50,7 +50,7 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle"ref="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Prestiti
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -77,7 +77,8 @@
         </div>
     </div>
     </div>
-        SITUAZIONE DEI PRESTITI:
+      <div class="interno text-center col md-12"  >
+        <br><b>SITUAZIONE DEI PRESTITI:<br>
         <br>
         <?php
         //PROMEMORIA:
@@ -87,15 +88,15 @@
         //E ANCHE LA FUNZIONE GET_POST
           $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
           if(!$connection){
-            echo "Non si connette".PHP_EOL;
-            echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-            echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+            echo "<br><b>Non si connette".PHP_EOL;
+            echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
+            echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
             exit(-1);
           }
           $queryPrestiti = "SELECT * FROM PRESTITO";
           $result = mysqli_query($connection,$queryPrestiti);
           if(!$result){
-            echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
+            echo "<br><b>Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
           }
           echo "<table class=\"table\">
                 <thead class='thead-dark'>
@@ -139,6 +140,7 @@
 
             echo "</table>";
           ?>
-      </div>  <!-- FINE DIV INDENTAZIONE -->
+      </div>
+      </div> <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>
