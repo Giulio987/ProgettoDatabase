@@ -77,19 +77,20 @@
         </div>
     </div>
     </div>
+    <div class="interno text-center col md-12"  >
     <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'form' method = 'POST'>
 
-        Inserire Le Informazioni da Ricercare:<br>
+        <br><b>Inserire Le Informazioni da Ricercare:<br>
         <fieldset>
-        <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+        <label><b>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
         </fieldset>
 
         <fieldset>
-        <label>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+        <label><b>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
         </fieldset>
 
         <fieldset>
-        <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+        <label><b>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
         </fieldset>
         <input type='submit' value="Invia" id='submit' name="Inv">
       </form>
@@ -100,9 +101,9 @@
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
         if(!$connection){
-          echo "Non si connette".PHP_EOL;
-          echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-          echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+          echo "<br><b>Non si connette".PHP_EOL;
+          echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
+          echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
         }
         if(isset($_POST['matricola'])  && isset($_POST['nCopia']) && isset($_POST['isbn'])) {
@@ -112,7 +113,7 @@
           $nCopia=get_post($connection, 'nCopia');
 
           if(!is_numeric($matricola)){
-            echo "Inserire Una Matricola Valida";
+            echo "<br><b>Inserire Una Matricola Valida";
             mysqli_close($connection);
             exit(-1);
           }
@@ -127,7 +128,7 @@
           $queryAll = "SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola' AND ISBN='$isbn' AND NUMERO_COPIA=$nCopia;";
           $resAll = mysqli_query($connection, $queryAll);
           if(!$resAll){
-            echo "recupero Informazioni Fallito<br>";
+            echo "<br><b>recupero Informazioni Fallito<br>";
             exit(-1);
 
           }
@@ -135,13 +136,13 @@
 
           //CONTROLLO PER VERIFICARE VALIDITà DEI DATI
           if(is_null($row['MATRICOLA'])){
-            echo "Prestito Non Trovato";
+            echo "<br><b>Prestito Non Trovato";
             return;
           }
 
 
           $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
-          echo "DATA INIZIO PRESTITO ".$data_uscita."<br>";
+          echo "<br><b>DATA INIZIO PRESTITO ".$data_uscita."<br>";
           $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
 
 
@@ -158,7 +159,7 @@
           else if(intval($row['N_PROROGHE']) == 2){
             $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
           }
-          echo "DATA LIMITE PRESTITO ".$data_rientro;
+          echo "<br><b>DATA LIMITE PRESTITO ".$data_rientro;
           //PER MANTENERE INPUT
           echo  "<input type=\"text\" name=\"matricola1\" id='matricola1' value='".get_post($connection, 'matricola')."'>";
           echo  "<script>$('#matricola1').hide()</script>";
@@ -184,7 +185,7 @@
           $query = "SELECT N_PROROGHE FROM PRESTITO WHERE ISBN='$isbn' AND MATRICOLA='$matricola' AND NUMERO_COPIA=$nCopia;";
           $res= mysqli_query($connection, $query);
           if(!$res){
-            echo "Recupero Proroghe Fallito".$res."<br>".$connection->error."<br>";
+            echo "<br><b>Recupero Proroghe Fallito".$res."<br>".$connection->error."<br>";
             exit(-1);
           }
           $row = mysqli_fetch_array($res);
@@ -193,13 +194,13 @@
             $query1 = "UPDATE PRESTITO SET N_PROROGHE=$nProroghe WHERE ISBN='$isbn' AND MATRICOLA='$matricola' AND NUMERO_COPIA=$nCopia;";
             $res1= mysqli_query($connection, $query1);
             if(!$res1){
-              echo "Aggiornamento Fallito".$res1."<br>".$connection->error."<br>";
+              echo "<br><b>Aggiornamento Fallito".$res1."<br>".$connection->error."<br>";
               exit(-1);
             }
-            echo "PROROGA COMPLETATA<br>";
+            echo "<br><b>PROROGA COMPLETATA<br>";
           }
           else{
-            echo "Impossibile Prorogare Ulteriormente il Prestito<br>";
+            echo "<br><b>Impossibile Prorogare Ulteriormente il Prestito<br>";
             exit(-1);
           }
         }
@@ -230,6 +231,30 @@
           })
       })
       </script>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       </div>  <!-- FINE DIV INDENTAZIONE -->
+      </div>
     </body>
 </html>
