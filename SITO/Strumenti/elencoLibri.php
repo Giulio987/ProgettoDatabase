@@ -65,9 +65,9 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
-                    <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
-                    <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                    <a class="dropdown-item" href="../Strumenti/elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
+                    <a class="dropdown-item" href="../Strumenti/elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                    <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   </div>
                 </li>
                 </ul>
@@ -77,11 +77,12 @@
         </div>
     </div>
     </div>
+    <div class="interno col md-12 text-center"  >
     <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
-            INSERIRE IL NOME DEL LIBRO
+            <br><b>INSERIRE IL NOME DEL LIBRO</b><br><br>
             <fieldset>
-            <label>INSERIRE: <input id ='Valore' type='text' name='Valore'></label><br>
+            <label><input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
 
         <script>
@@ -114,11 +115,11 @@
               $ricerca_libro="SELECT * FROM LIBRO WHERE TITOLO LIKE '%$NomeLibro%';";
               $resultLibro = mysqli_query($connection, $ricerca_libro);
               if(!$resultLibro){
-                echo "Ricerca Libro Fallita".$resultLibro."<br>".$connection->error."<br>";
+                echo "<b>Ricerca Libro Fallita".$resultLibro."<br>".$connection->error."<br>";
               }
               $row = mysqli_fetch_array($resultLibro);
               if(is_null($row['ISBN'])){
-                echo "LIBRO NON TROVATO";
+                echo "<b>LIBRO NON TROVATO";
                 return(-1);
               }
               echo "LIBRO:<br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
@@ -129,7 +130,7 @@
                 echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
               }
 
-              echo "<table class=\"table\">
+              echo "<table border=\"1\" class=\"table\">
                     <thead class='thead-dark'>
                     <tr>
                       <th scope=\"col\">MATRICOLA</th>
@@ -146,7 +147,7 @@
                 $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
                 $resultDip = mysqli_query($connection, $queryDip);
                 if(!$resultDip){
-                  echo "Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
+                  echo "<b>Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
                 }
                 $rowDip = mysqli_fetch_array($resultDip);
                 $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
@@ -181,6 +182,7 @@
           ?>
 
         </form>
+      </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>

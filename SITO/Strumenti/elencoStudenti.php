@@ -77,13 +77,15 @@
         </div>
     </div>
     </div>
+    <div class="interno col md-12 text-center"  >
     <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
 
 
             <fieldset>
-            <label>NOME STUDENTE <input id ='Valore' type='text' name='Valore'></label><br>
+            <label><br><b>NOME STUDENTE</b> <input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
+
 
       <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
       <br>
@@ -173,6 +175,7 @@
           ?>
 
         </form>
+      </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>
