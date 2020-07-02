@@ -75,8 +75,9 @@
           </nav>
         </div>
     </div>  <!-- FINE DIV INDENTAZIONE -->
+        <div class="interno col md-12 text-center" >
         <br>
-        LINGUE PIU FREQUENTI:
+        <b>LINGUE PIU FREQUENTI:<br>
         <br>
         <?php
         //PROMEMORIA:
@@ -121,7 +122,7 @@
           <br>
 
 
-          AUTORE CHE HA SCRITTO PIU LIBRI:
+          <b>AUTORE CHE HA SCRITTO PIU LIBRI:<br>
           <br>
           <?php
           //PROMEMORIA:
@@ -168,7 +169,7 @@
             ?>
             <br>
 
-            EDITORE CHE HA PUBBLICATO PIU LIBRI:
+            <b>EDITORE CHE HA PUBBLICATO PIU LIBRI:<br>
             <br>
             <?php
             //PROMEMORIA:
@@ -210,7 +211,7 @@
                 echo "</table>";
               ?>
 
-
+            </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
   </html>
