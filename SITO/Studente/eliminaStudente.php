@@ -17,7 +17,7 @@
   </head>
 
   <body>
-        <div class="container">
+        <div class="container" >
             <br>
             <div class="col md-3 titolo right row">
             <b><font face="arial" size="5">Biblioteca UNIFE</font></b>
@@ -77,20 +77,27 @@
         </div>
     </div>
     </div>
+    <div class="interno text-center"  >
+
         <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
             <fieldset>
-            <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+              <br>
+            <label>    <b> Inserisci la matricola dello studente del quale si vogliono eliminare le informazioni</b><br>
+              <br>
+             <input id ='matricola' type='text' name='matricola'></label><br>
             </fieldset>
 
             <input type='submit' value="Invia" >
-        </form>
+      </form>
+
 
         <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formDelete' method = 'POST'>
 
+          <div class="col md-12 text-center">
           <?php
           $submit_value = 0;
-          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
+          $connection = mysqli_connect("127.0.0.1","root","2370","Biblioteca");
 
           if(!$connection){
           echo "Non si connette".PHP_EOL;
@@ -104,7 +111,7 @@
             $matricola=get_post($connection, 'matricola');
 
             if(!is_numeric($matricola)){
-              echo "Inserire Una Matricola Valida";
+              echo "<br><b>Inserire Una Matricola Valida</b>";
               mysqli_close($connection);
               exit(-1);
             }
@@ -122,6 +129,7 @@
               echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
             }
             $row = mysqli_fetch_array($result);
+
             echo  "<input type=\"text\" name=\"matricola1\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
             echo  "<script>$('#savedMatricola').hide()</script>";
             echo "<table class=\"table\">
@@ -166,10 +174,10 @@
               //sia che un vincolo non sia stato rispettato
               //poichè gli altri possibilierrorisono gia stati gestiti prima
               if(!$result){
-                echo "Eliminazione Fallita: Prestito Ancora In Corso <br>";
+                echo "<br><b>Eliminazione Fallita: Prestito Ancora In Corso</b> <br>";
               }
               else{
-                echo "Studente eliminato dal Database<br>";
+                echo "<br><b>Studente eliminato dal Database</b><br>";
               }
             }
 
@@ -179,7 +187,7 @@
             return $connection->real_escape_string($_POST[$var]);
           }
           ?>
-          <input type='submit' value="Elimina" id='Delete' name='Del'>
+        <input type='submit'  value="Elimina" id='Delete' name='Del'>
         </form>
         <script>
           $(document).ready(function(){
@@ -195,7 +203,38 @@
                 }
             })
           });
+
       </script>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+
+    </div>
+
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>
