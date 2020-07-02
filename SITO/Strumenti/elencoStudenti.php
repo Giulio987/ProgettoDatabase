@@ -84,14 +84,14 @@
 
 
             <fieldset>
-            <label><br><b>NOME STUDENTE</b> <input id ='Valore' type='text' name='Valore'></label><br>
+            <label><br><b>INSERIRE LO STUDENTE DA RICERCARE:</b><br> <br><input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
 
-
+      <br>
       <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
       <br>
           <?php
-          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
+          $connection = mysqli_connect("127.0.0.1","root","2370","Biblioteca");
 
           if(!$connection){
           echo "Non si connette".PHP_EOL;
@@ -177,6 +177,30 @@
           ?>
 
         </form>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
       </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
