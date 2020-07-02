@@ -17,6 +17,7 @@
   </head>
 
   <body>
+
         <div class="container">
             <br>
             <div class="col md-3 titolo right row">
@@ -77,38 +78,41 @@
         </div>
     </div>
     </div>
+
+
         <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
-
+          <div class="interno text-center col md-12"  >
+          <br>
             <fieldset>
-            <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+            <label><b>Matricola:</b> <input id ='matricola' type='text' name='matricola'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Nome: <input id ='nome' type='text' name='nome'></label><br>
+            <label><b>Nome: <input id ='nome' type='text' name='nome'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Cognome: <input id ='cognome' type='text' name='cognome'></label><br>
+            <label><b>Cognome: <input id ='cognome' type='text' name='cognome'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Numero di telefono: <input id ='telefono' type='tel' name='telefono'></label><br>
+            <label><b>Numero di telefono: <input id ='telefono' type='tel' name='telefono'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Via: <input id ='via' type='text' name='via'></label><br>
+            <label><b>Via: <input id ='via' type='text' name='via'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Civico: <input id ='civico' type='text' name='civico'></label><br>
+            <label><b>Civico: <input id ='civico' type='text' name='civico'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>CAP: <input id ='cap' type='text' name='cap'></label><br>
+            <label><b>CAP: <input id ='cap' type='text' name='cap'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Città: <input id ='citta' type='text' name='citta'></label><br>
+            <label><b>Città: <input id ='citta' type='text' name='citta'></label><br>
             </fieldset>
 
 
@@ -130,9 +134,9 @@
   $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
   if(!$connection){
-  echo "Non si connette".PHP_EOL;
-  echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-  echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+  echo "<b>Non si connette".PHP_EOL;
+  echo "<b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
+  echo "<b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
   exit(-1);
   }
 
@@ -148,7 +152,7 @@
   $citta=get_post($connection, 'citta');
 
   if(!is_numeric($matricola)){
-    echo "Inserire Una Matricola Valida";
+    echo "<b>Inserire Una Matricola Valida";
     mysqli_close($connection);
     exit(-1);
   }
@@ -163,9 +167,9 @@
   $ins_studente="INSERT INTO STUDENTE VALUES('$matricola','$nome','$cognome','$telefono','$via','$civico','$cap','$citta')";
   $result = mysqli_query($connection, $ins_studente);
   if(!$result){
-    echo "Inserimento Fallito".$result."<br>".$connection->error."<br>";
+    echo "<b>Inserimento Fallito".$result."<br>".$connection->error."<br>";
   }
-  echo "Inserimento ok";
+  echo "<b>Inserimento ok";
   }
   //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
   mysqli_close($connection);
@@ -176,6 +180,26 @@
     return $connection->real_escape_string($_POST[$var]);
   }
   ?>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+    </div>
+
 </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>
