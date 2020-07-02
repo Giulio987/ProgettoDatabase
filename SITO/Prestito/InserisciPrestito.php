@@ -76,19 +76,19 @@
         </div>
     </div>
     </div>
-    <div class="interno text-center"  >
+    <div class="interno text-center col md-12"  >
         <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
             <fieldset>
-            <label>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+            <label><br><b>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+            <label><b>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
             </fieldset>
 
             <fieldset>
-            <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+            <label><b>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
             </fieldset>
 
             <fieldset>
@@ -123,9 +123,9 @@
   $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
   if(!$connection){
-  echo "Non si connette".PHP_EOL;
-  echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-  echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+  echo "<br><b>Non si connette".PHP_EOL;
+  echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
+  echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
   exit(-1);
   }
 
@@ -136,7 +136,7 @@
     $iniziop=date('Y-m-d'); //Non Ha senso inserire una data che non sia quella odierna
 
     if(!is_numeric($matricola)){
-      echo "Inserire Una Matricola Valida";
+      echo "<br><b>Inserire Una Matricola Valida";
       mysqli_close($connection);
       exit(-1);
     }
@@ -154,7 +154,7 @@
     //Scorrendo tutto il ciclo si verificano i libri gia in prestito così da evitare duplicati
     while($prestiti = mysqli_fetch_array($resultControllo)){
         if(strcmp($prestiti['ISBN'], $isbn) == 0 && strcmp($prestiti['NUMERO_COPIA'], $nCopia) == 0){
-            echo "Libro già in Prestito già in corso<br>";
+            echo "<br><b>Libro già in Prestito già in corso<br>";
             mysqli_close($connection);
             exit(-1);
         }
@@ -180,6 +180,30 @@
     return $connection->real_escape_string($_POST[$var]);
   }
   ?>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
 </div>
 </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
