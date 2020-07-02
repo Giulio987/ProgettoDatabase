@@ -97,7 +97,7 @@
           <div class="col md-12 text-center">
           <?php
           $submit_value = 0;
-          $connection = mysqli_connect("127.0.0.1","root","2370","Biblioteca");
+          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
           if(!$connection){
           echo "Non si connette".PHP_EOL;
