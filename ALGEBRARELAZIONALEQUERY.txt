@@ -1,0 +1,19 @@
+
+
+
+ SECONDA QUERY:
+ 
+  INTERNA:
+  
+  tmp <- AUTORE ⨝ (AUTORE.ID_AUT = SCRIVE.ID_AUT) SCRIVE
+  
+  res <- π AURORE.ID_AUT, LIBRI_SCRITTI (tmp.ID_AUT γ COUNT(tmp.ID_AUT) -> LIBRI_SCRITTI)
+  
+  
+  MAX_VALUE <- γ MAX(res.LIBRI_SCRITTI)
+  
+  ESTERNA:
+  
+  resFinale <-  π LIBRI_SCRITTI(σ libri_scritti = MAX_VALUE(res))
+  
+  
