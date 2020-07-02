@@ -77,10 +77,11 @@
         </div>
     </div>
     </div>
+        <div class="interno text-center"  >
     <form action="modificaStudente.php" id = 'form' method = 'POST'>
-        Inserire La Matricola da Ricercare:<br>
+        <br><b>Inserire La Matricola da Ricercare:<br>
         <fieldset id = 'labelMatricola'>
-        <label>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+        <label><br> <input id ='matricola' type='text' name='matricola'></label><br>
       </fieldset>
         <input type='submit' value="Invia" id='submit' name="Inv">
     </form>
@@ -93,9 +94,9 @@
         $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
         if(!$connection){
-          echo "Non si connette".PHP_EOL;
-          echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-          echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
+          echo "<br><b>Non si connette".PHP_EOL;
+          echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
+          echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
           exit(-1);
         }
         if(isset($_POST['matricola'])) {
@@ -103,7 +104,7 @@
           $matricola=get_post($connection, 'matricola');
 
           if(!is_numeric($matricola)){
-            echo "Inserire Una Matricola Valida";
+            echo "<br><b>Inserire Una Matricola Valida</b>";
             mysqli_close($connection);
             exit(-1);
           }
@@ -117,7 +118,7 @@
           $query = "SELECT * FROM STUDENTE WHERE MATRICOLA=$matricola";
           $result = mysqli_query($connection, $query);
           if(!$result){
-              echo "Ricerca Fallita".$result."<br>".$connection->error."<br>";
+              echo "<b>Ricerca Fallita".$result."<br>".$connection->error."<br>";
             }
           $row = mysqli_fetch_array($result);
           //Controllo se lamatricola esiste nel database
@@ -184,6 +185,32 @@
           })
       })
       </script>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
 </html>
