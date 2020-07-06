@@ -86,7 +86,7 @@
   </body>
 </html>
 <?php
-    $connection = mysqli_connect("127.0.0.1","root","");
+    $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
 
     if(!$connection){
         echo "Non si connette".PHP_EOL;
