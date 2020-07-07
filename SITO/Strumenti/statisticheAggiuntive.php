@@ -65,9 +65,10 @@
                     Strumenti Di Ricerca
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                      <a class="dropdown-item" href="elencoStudenti.php" id='punto1e2'>Elenco Studenti</a>
-                      <a class="dropdown-item" href="elencoLibri.php" id='punto1e2'>Elenco Libri</a>
+                      <a class="dropdown-item" href="elencoStudenti.php" id='punto1'>Elenco Studenti</a>
+                      <a class="dropdown-item" href="elencoLibri.php" id='punto2'>Elenco Libri</a>
                       <a class="dropdown-item" href="statistiche.php" id = 'statistiche'>Tool Statistiche</a>
+                      <a class="dropdown-item" href="statisticheAggiuntive.php" id = 'statistiche2'>Statistiche aggiuntive</a>
                   </div>
                 </li>
               </ul>
@@ -102,12 +103,7 @@
             echo "<br>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
             exit(-1);
           }
-          ?>
 
-
-          <b>LIBRI PRESENTI PER DIPARTIMENTO<br>
-          <br>
-          <?php
           //PROMEMORIA:
           //
           //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
@@ -135,21 +131,21 @@
 
 
             if(!$resultC){
-              echo "Ricerca Prestiti Fallita".$resultC."<br>".$connection->error."<br>";
+              echo "Ricerca Fallita".$resultC."<br>".$connection->error."<br>";
             }
 
             echo "<table class=\"table\">
                   <thead class='thead-dark'>
                   <tr>
-                    <th scope=\"col\">COPIE DISPONIBILI</th>
                     <th scope=\"col\">DIPARTIMENTO</th>
+                    <th scope=\"col\">COPIE DISPONIBILI</th>
                   </tr>
                 </thead>";
             while($row = mysqli_fetch_array($resultC)){
                   echo"<tbody>
                       <tr>
-                        <td scope=\"row\">".$row['COPIE_DISPONIBILI']."</th>
                         <td scope=\"row\">".$row['NOME_DIP']."</th>
+                        <td scope=\"row\">".$row['COPIE_DISPONIBILI']."</th>
                       </tr>
                   </tbody>";
                 }
@@ -159,10 +155,37 @@
             ?>
             <br>
           </form>
-
-
-            <b>EDITORE CHE HA PUBBLICATO PIU LIBRI:<br>
+          <script type="text/javascript">
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+            for (i = 0; i < coll.length; i++) {
+              coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                  content.style.display = "none";
+                } else {
+                  content.style.display = "block";
+                }
+              });
+            }
+          </script>
             <br>
+            <p>
+            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" href="#prestitiStudenti" role="button" aria-expanded="false" aria-controls="collapseExample">
+              PRIMI 15 STUDENTI CON PIU PRESTITI ATTIVI
+            </a>
+            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" href="#libridip" role="button" aria-expanded="false" aria-controls="collapseExample">
+              DIPARTIMENTI CON PIU LIBRI
+            </a>
+            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" href="#scadenze" role="button" aria-expanded="false" aria-controls="collapseExample">
+              PRESTITI IN SCADENZA
+            </a>
+            </p>
+
+
+            <div class="collapse" id="prestitiStudenti">
+              <div class="card card-body">
             <?php
             //PROMEMORIA:
             //
@@ -170,53 +193,221 @@
             //DA POTERLA RICHIAMARE QUANDO SI VUOLE
             //E ANCHE LA FUNZIONE GET_POST
 
-              $queryEditore = "SELECT E.NOME_ED,COUNT(L.COD_ED) AS LIBRI_PUBBLICATI
-                                FROM EDITORE E,LIBRO L
-                                WHERE E.CODICE=L.COD_ED
-                                GROUP BY L.COD_ED
-                                HAVING LIBRI_PUBBLICATI=(SELECT MAX(T.LIBRI_PUBBLICATI)
-							                         FROM(SELECT E.NOME_ED,COUNT(L.COD_ED) AS LIBRI_PUBBLICATI
-									                           FROM EDITORE E,LIBRO L
-									                           WHERE E.CODICE=L.COD_ED
-									                           GROUP BY L.COD_ED
-									                           ORDER BY LIBRI_PUBBLICATI DESC) AS T)
-                                ORDER BY LIBRI_PUBBLICATI DESC;";
-              $result = mysqli_query($connection,$queryEditore);
+              $queryNPrestiti = "SELECT S.MATRICOLA,S.NOME,S.COGNOME,COUNT(P.MATRICOLA) AS NUMERO_PRESTITI
+              FROM PRESTITO P,STUDENTE S
+              WHERE P.MATRICOLA=S.MATRICOLA
+              GROUP BY MATRICOLA
+              ORDER BY NUMERO_PRESTITI DESC
+              LIMIT 15;";
+              $result = mysqli_query($connection,$queryNPrestiti);
               if(!$result){
                 echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
               }
-              echo "<table class=\"table\">
+              echo "
+
+                <table class=\"table\">
                     <thead class='thead-dark'>
                     <tr>
-                      <th scope=\"col\">NOME EDITORE</th>
-                      <th scope=\"col\">LIBRI PUBBLICATI</th>
+                      <th scope=\"col\">MATRICOLA</th>
+                      <th scope=\"col\">NOME</th>
+                      <th scope=\"col\">COGNOME</th>
+                      <th scope=\"col\">NUMERO DI PRESTITI IN CORSO</th>
                     </tr>
                   </thead>";
               while($row = mysqli_fetch_array($result)){
                     echo"<tbody>
                         <tr>
-                          <td scope=\"row\">".$row['NOME_ED']."</th>
-                          <td scope=\"row\">".$row['LIBRI_PUBBLICATI']."</th>
+                          <td scope=\"row\">".$row['MATRICOLA']."</th>
+                          <td scope=\"row\">".$row['NOME']."</th>
+                          <td scope=\"row\">".$row['COGNOME']."</th>
+                          <td scope=\"row\">".$row['NUMERO_PRESTITI']."</th>
                         </tr>
                     </tbody>";
                   }
+              echo "</table>";
 
-                echo "</table>";
-
-
-
-
-
-                mysqli_close($connection);
-
-
-
-                function get_post($connection, $var){
-                  return $connection->real_escape_string($_POST[$var]);
-                }
+              function get_post($connection, $var){
+                return $connection->real_escape_string($_POST[$var]);
+              }
               ?>
 
-            </div>
+              </div>
+            </div><!-- FINE DIV COLLAPSIBLE-->
+            <div class="collapse" id="libridip">
+              <div class="card card-body">
+                <?php
+                //PROMEMORIA:
+                //
+                //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
+                //DA POTERLA RICHIAMARE QUANDO SI VUOLE
+                //E ANCHE LA FUNZIONE GET_POST
+
+                  $queryDip = "SELECT D.NOME_DIP,COUNT(C.NOME_DIP) AS NUMERO_LIBRI
+                                     FROM  DIPARTIMENTO D,COPIA C
+                                     WHERE D.NOME_DIP=C.NOME_DIP
+                                     GROUP BY NOME_DIP
+                                     ORDER BY NUMERO_LIBRI DESC;";
+                  $result = mysqli_query($connection,$queryDip);
+                  if(!$result){
+                    echo "Ricerca Libri per dipartimenti Fallita".$result."<br>".$connection->error."<br>";
+                  }
+                  echo "
+
+                    <table class=\"table\">
+                        <thead class='thead-dark'>
+                        <tr>
+                          <th scope=\"col\">NOME DIPARTIMENTO</th>
+                          <th scope=\"col\">NUMERO DI LIBRI PRESENTI</th>
+                        </tr>
+                      </thead>";
+                  while($row = mysqli_fetch_array($result)){
+                        echo"<tbody>
+                            <tr>
+                              <td scope=\"row\">".$row['NOME_DIP']."</th>
+                              <td scope=\"row\">".$row['NUMERO_LIBRI']."</th>
+                            </tr>
+                        </tbody>";
+                      }
+                  echo "</table>";
+                  ?>
+              </div>
+           </div><!-- FINE DIV COLLAPSIBLE-->
+           <div class="collapse" id="scadenze">
+             <div class="card card-body">
+               <?php
+               //PROMEMORIA:
+               //DARE AL PROF LE DATE AGGIORNATE
+
+                 $queryScadenze = "SELECT S.MATRICOLA,S.NOME,S.COGNOME,P.ISBN,L.TITOLO,P.NUMERO_COPIA,P.DATA_USCITA, P.N_PROROGHE
+                                   FROM  PRESTITO P,COPIA C,STUDENTE S,LIBRO L
+                                   WHERE P.ISBN=C.ISBN AND P.NUMERO_COPIA = C.NUMERO_COPIA AND P.MATRICOLA = S.MATRICOLA AND P.ISBN = L.ISBN;";
+                 $result = mysqli_query($connection,$queryScadenze);
+                 if(!$result){
+                   echo "Ricerca Scadenze Imminenti Fallita".$result."<br>".$connection->error."<br>";
+                 }
+
+                 echo "
+
+                   <table class=\"table\">
+                       <thead class='thead-dark'>
+                       <tr>
+                         <th scope=\"col\">MATRICOLA</th>
+                         <th scope=\"col\">NOME</th>
+                         <th scope=\"col\">COGNOME</th>
+                         <th scope=\"col\">ISBN</th>
+                         <th scope=\"col\">TITOLO</th>
+                         <th scope=\"col\">NUMERO COPIA</th>
+                         <th scope=\"col\">DATA PREVISTA PER IL RIENTRO</th>
+                       </tr>
+                     </thead>";
+                 while($row = mysqli_fetch_array($result)){
+                     $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+                     $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+                     if(intval($row['N_PROROGHE']) == 1){
+                       $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
+                     }
+                     else if(intval($row['N_PROROGHE']) == 2){
+                       $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+                     }
+                     $data_confronto = date('Y-m-d', strtotime($data_rientro.' - 3 days'));
+                     $data_oggi=date('Y-m-d');
+
+
+
+                     $datetime1 = new DateTime($data_oggi);
+                     $datetime2 = new DateTime($data_confronto);
+                     $interval = $datetime2->diff($datetime1);
+
+                     if($interval->format('%a ') <= 3){
+                     echo"<tbody>
+                           <tr>
+                             <td scope=\"row\">".$row['MATRICOLA']."</th>
+                             <td scope=\"row\">".$row['NOME']."</th>
+                             <td scope=\"row\">".$row['COGNOME']."</th>
+                             <td scope=\"row\">".$row['ISBN']."</th>
+                             <td scope=\"row\">".$row['TITOLO']."</th>
+                             <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                             <td scope=\"row\">".$data_rientro."</th>
+                           </tr>
+                       </tbody>";
+                     }
+                }
+                echo "</table>";
+
+                 ?>
+             </div>
+          </div><!-- FINE DIV COLLAPSIBLE-->
+          <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form2' class= 'loader'>
+            <br><b>INSERISCI UNA DATA E TROVA I PRESTITI EFFETTUATI IN QUELLA DATA</b><br>
+                  <fieldset>
+                  <label><br><b>INSERIRE LA DATA</b><br> <br><input id ='Data' type='date' name='Data'></label><br>
+                  </fieldset>
+
+                  <br>
+                  <input type='submit' value="RICERCA" id='Ricerca' name='Ric'>
+                  <br>
+            <?php
+              if(isset($_POST['Data'])){
+                $dataRicerca = get_post($connection, 'Data');
+                $queryData = "SELECT P.ISBN,L.TITOLO,P.NUMERO_COPIA,P.MATRICOLA,P.DATA_USCITA,C.NOME_DIP
+                                FROM  PRESTITO P,COPIA C,LIBRO L
+                                WHERE P.ISBN=C.ISBN AND P.NUMERO_COPIA=C.NUMERO_COPIA AND C.ISBN=L.ISBN AND P.DATA_USCITA='$dataRicerca';";
+                $resultData = mysqli_query($connection,$queryData);
+                if(!$resultData){
+                  echo "Ricerca Fallita".$resultC."<br>".$connection->error."<br>";
+                }
+
+                echo "<table class=\"table\">
+                      <thead class='thead-dark'>
+                      <tr>
+                        <th scope=\"col\">ISBN</th>
+                        <th scope=\"col\">TITOLO </th>
+                        <th scope=\"col\">NUMERO_COPIA</th>
+                        <th scope=\"col\">MATRICOLA</th>
+                        <th scope=\"col\">DIPARTIMENTO DI PROVENIENZA</th>
+                      </tr>
+                    </thead>";
+                while($row = mysqli_fetch_array($resultData)){
+                      echo"<tbody>
+                          <tr>
+                            <td scope=\"row\">".$row['ISBN']."</th>
+                            <td scope=\"row\">".$row['TITOLO']."</th>
+                            <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                            <td scope=\"row\">".$row['MATRICOLA']."</th>
+                            <td scope=\"row\">".$row['NOME_DIP']."</th>
+                          </tr>
+                      </tbody>";
+                    }
+
+                  echo "</table>";
+                }
+                ?>
+          </form>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
   </html>
