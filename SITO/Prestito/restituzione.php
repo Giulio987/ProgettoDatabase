@@ -19,13 +19,13 @@
 <body>
   <div class="container">
     <br>
-    <div class="col md-3 titolo right row">
+    <div class="col-md-3 titolo right row">
       <b><font face="arial" size="5">Biblioteca UNIFE</font></b>
     </div>
 
     <div class="row">
 
-      <div class="col md-12">
+      <div class="col-md-12">
         <br>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
