@@ -178,7 +178,7 @@
 
             mysqli_close($connection);
             ?>
-            <input type='submit'  value="Elimina" id='Delete' name='Del'>
+           <center><input type='submit'  value="Elimina" id='Delete' name='Del'></center>
           </form>
           <script>
           $(document).ready(function(){
