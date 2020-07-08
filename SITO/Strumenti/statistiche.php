@@ -91,7 +91,7 @@
           if(!$result){
             echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
           }
-          echo "<table class=\"table\">
+          echo "<table border=\"1\" class=\"table\">
           <thead class='thead-dark'>
           <tr>
           <th scope=\"col\">LINGUA</th>
@@ -130,7 +130,7 @@
             if(!$result){
               echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
             }
-            echo "<table class=\"table\">
+            echo "<table border=\"1\" class=\"table\">
             <thead class='thead-dark'>
             <tr>
             <th scope=\"col\">ID AUTORE</th>
@@ -172,7 +172,7 @@
               if(!$result){
                 echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
               }
-              echo "<table class=\"table\">
+              echo "<table border=\"1\" class=\"table\">
               <thead class='thead-dark'>
               <tr>
               <th scope=\"col\">NOME EDITORE</th>
