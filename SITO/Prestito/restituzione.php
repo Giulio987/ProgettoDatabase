@@ -87,8 +87,8 @@
           if(!$result){
             echo "<br><b>Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
           }
-          echo "<table border=\"1\"  class=\"table\">
-                <thead border=\"1\"  class='thead-dark'>
+          echo "<table  class=\"table\">
+                <thead   class='thead-dark'>
                 <tr>
                   <th scope=\"col\">ISBN</th>
                   <th scope=\"col\">N° COPIA</th>
