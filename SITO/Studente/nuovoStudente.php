@@ -19,13 +19,13 @@
 
         <div class="container">
             <br>
-            <div class="col md-3 titolo right row">
+            <div class="col-md-3 titolo right row">
             <b><font face="arial" size="5">Biblioteca UNIFE</font></b>
             </div>
 
             <div class="row">
 
-            <div class="col md-12">
+            <div class="col-md-12">
             <br>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -79,42 +79,63 @@
     </div>
   </div>
   <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
-    <div class="interno text-center col md-12"  >
+
+    <div class="interno text-center col md-12">
+
+          <br><b>INSERIRE DATI STUDENTE</b><br><br>
+
+          <div class="container ">
+          <div class="row">
+
+          <div class="col-md-6 text-right " style="line-height:30px;">
           <br>
+          <b>MATRICOLA:
+          <br>NOME:
+          <br>COGNOME:
+          <br>NUMERO DI TELEFONO:
+          <br>VIA:
+          <br>CIVICO:
+          <br>CAP:
+          <br>CITTA:
+          </div>
+          <br>
+          <div class="col-md-6 text-left">
             <fieldset>
-            <label><b>Matricola:</b> <input id ='matricola' type='text' name='matricola'></label><br>
+            <input id ='matricola' type='text' name='matricola'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>Nome: <input id ='nome' type='text' name='nome'></label><br>
+            <input id ='nome' type='text' name='nome'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>Cognome: <input id ='cognome' type='text' name='cognome'></label><br>
+            <input id ='cognome' type='text' name='cognome'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>Numero di telefono: <input id ='telefono' type='tel' name='telefono'></label><br>
+            <input id ='telefono' type='tel' name='telefono'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>Via: <input id ='via' type='text' name='via'></label><br>
+            <input id ='via' type='text' name='via'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>Civico: <input id ='civico' type='text' name='civico'></label><br>
+            <input id ='civico' type='text' name='civico'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>CAP: <input id ='cap' type='text' name='cap'></label><br>
+            <input id ='cap' type='text' name='cap'><br>
             </fieldset>
 
             <fieldset>
-            <label><b>Città: <input id ='citta' type='text' name='citta'></label><br>
+            <input id ='citta' type='text' name='citta'><br>
             </fieldset>
-
-
+          </div>
+        </div>
+        <br>
             <input type='submit' value="Invia">
+
         </form>
 
         <script>
