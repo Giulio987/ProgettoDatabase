@@ -187,7 +187,9 @@
             </div>
           </div>
         </div>
-        <center><input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'></center>
+
+        <button><input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'></button>
+    
       </form>
       <script type="text/javascript">
       $(document).ready(function(){
@@ -205,19 +207,6 @@
           })
         })
         </script>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
         <br>
         <br>
         <br>
