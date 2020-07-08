@@ -18,9 +18,6 @@ hr {
   border-top: 1px solid rgba(0, 0, 0,0);
 }
 
-center{
-    text-align:center;
-}
 
 .interno
 {
@@ -28,10 +25,19 @@ center{
 	      border: 1px solid ;
 }
 
+.button {
+    padding:1em;
+    text-align: center;
+    display:inline-block;
+    text-decoration: none ;
+    margin:0 auto;
+}
+
 .content {
         float: none;
         margin: 0 auto;
     }
+
 .glyphicon
 {
   font-size:30px;
@@ -69,24 +75,7 @@ center{
   margin-bottom:0px;
 }
 
-.aria
-{
-  padding: 5px;
-  margin: 5px;
-  margin-left: 0px;
-  padding-left: 0px;
-}
 
-
-.aria a:hover span
-{
-  color: #000;
-}
-
-.aria a
-{
-  color: #000;
-}
 
 .block
 {
