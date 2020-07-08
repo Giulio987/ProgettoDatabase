@@ -82,17 +82,33 @@
       <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'form' method = 'POST'>
 
         <br><b>INSERIRE LE INFORMAZIONI DA RICERCARE:<br><br>
+          <div class="container ">
+          <div class="row">
+
+          <div class="col-md-6 text-right " style="line-height:28px;">
+          <br>
+          <b>ISBN:
+          <br>NUMERO COPIA:
+          <br>MATRICOLA:
+
+          </div>
+          <br>
+          <div class="col-md-6 text-left">
           <fieldset>
-            <label><b>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+             <input id ='isbn' type='text' name='isbn'><br>
             </fieldset>
 
             <fieldset>
-              <label><b>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+          <input id ='nCopia' type='text' name='nCopia'><br>
               </fieldset>
 
               <fieldset>
-                <label><b>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+                <input id ='matricola' type='text' name='matricola'><br>
                 </fieldset>
+              </div>
+              </div>
+              </div>
+                <br>
                 <input type='submit' value="Invia" id='submit' name="Inv">
               </form>
               <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formUpdate' method = 'POST'>
