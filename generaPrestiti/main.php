@@ -28,10 +28,10 @@
 
 
     //Data di inizio generazione
-    $start = strtotime("5 May 2020");
+    $start = strtotime("25 June 2020");
 
     //Data di fine generazione
-    $end = strtotime("5 June 2020");
+    $end = strtotime("7 July 2020");
 
 
 
@@ -39,7 +39,7 @@
     //Si assume che se un libro ritorna allora il prestito
     //viene eliminato dal database
 
-    for($i = 0; $i < 1000; $i++) {
+    for($i = 0; $i < 5000; $i++) {
         //tramite l'offset vengono generati gli studenti casualmente
         $offset = rand(0, $count - 1);
         $sql2 = "SELECT MATRICOLA FROM STUDENTE LIMIT 1 OFFSET $offset";

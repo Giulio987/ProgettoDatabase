@@ -85,7 +85,7 @@
 
 
             <fieldset>
-            <label><br><b>INSERIRE LO STUDENTE DA RICERCARE:</b><br> <br><input id ='Valore' type='text' name='Valore'></label><br>
+            <label><br><b>INSERIRE LO STUDENTE PER RECUPERARE I PRESTITI A ESSO ASSOCIATI:</b><br> <br><input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
 
       <br>
@@ -114,7 +114,8 @@
                 echo "Ricerca Studente Fallita".$resultStud."<br>".$connection->error."<br>";
               }
               while($row = mysqli_fetch_array($resultStud)){
-                echo "STUDENTE:<br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>VIA:  ".$row['VIA']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
+                echo "<br><b>STUDENTE:</b><br>MATRICOLA:  ".$row['MATRICOLA']."<br>NOME:  ".$row['NOME']."<br>COGNOME:   ".$row['COGNOME']."<br>TELEFONO:  ".$row['NUMERO_TELEFONO']."<br>VIA:  ".$row['VIA']."<br>CIVICO:  ".$row['CIVICO']."<br>CAP:  ".$row['CAP']."<br>CITTA:  ".$row['CITTA'];
+                echo "<br><br>";
                 $matricola = $row['MATRICOLA'];
                 $ricerca_prestito="SELECT * FROM PRESTITO WHERE MATRICOLA='$matricola';";
                 $result = mysqli_query($connection, $ricerca_prestito);
@@ -122,7 +123,7 @@
                   echo "Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
                 }
 
-                echo "<table class=\"table\">
+                echo "<table border=\"1\" class=\"table\">
                       <thead class='thead-dark'>
                       <tr>
                         <th scope=\"col\">ISBN</th>

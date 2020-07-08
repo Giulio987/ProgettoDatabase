@@ -14,6 +14,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <!--Versione non Slim per load function-->
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
+
+
   </head>
 
   <body>
@@ -134,7 +136,7 @@
               echo "Ricerca Fallita".$resultC."<br>".$connection->error."<br>";
             }
 
-            echo "<table class=\"table\">
+            echo "<table border=\"1\" class=\"table\">
                   <thead class='thead-dark'>
                   <tr>
                     <th scope=\"col\">DIPARTIMENTO</th>
@@ -156,6 +158,20 @@
             <br>
           </form>
           <script type="text/javascript">
+            $(document).ready(function() {
+              $("#collapse1").on('click', function() {
+                  $("#libridip").removeClass("show");
+                  $("#scadenze").removeClass("show");
+              });
+              $("#collapse2").on('click', function() {
+                  $("#prestitiStudenti").removeClass("show");
+                  $("#scadenze").removeClass("show");
+              });
+              $("#collapse3").on('click', function() {
+                  $("#libridip").removeClass("show");
+                  $("#prestitiStudenti").removeClass("show");
+              });
+            });
             var coll = document.getElementsByClassName("collapsible");
             var i;
             for (i = 0; i < coll.length; i++) {
@@ -172,13 +188,13 @@
           </script>
             <br>
             <p>
-            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" href="#prestitiStudenti" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" id="collapse1" href="#prestitiStudenti" role="button" aria-expanded="false" aria-controls="collapseExample">
               PRIMI 15 STUDENTI CON PIU PRESTITI ATTIVI
             </a>
-            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" href="#libridip" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" id="collapse2" href="#libridip" role="button" aria-expanded="false" aria-controls="collapseExample">
               DIPARTIMENTI CON PIU LIBRI
             </a>
-            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" href="#scadenze" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" id="collapse3" href="#scadenze" role="button" aria-expanded="false" aria-controls="collapseExample">
               PRESTITI IN SCADENZA
             </a>
             </p>
@@ -205,7 +221,7 @@
               }
               echo "
 
-                <table class=\"table\">
+                <table border=\"1\" class=\"table\">
                     <thead class='thead-dark'>
                     <tr>
                       <th scope=\"col\">MATRICOLA</th>
@@ -253,7 +269,7 @@
                   }
                   echo "
 
-                    <table class=\"table\">
+                    <table border=\"1\" class=\"table\">
                         <thead class='thead-dark'>
                         <tr>
                           <th scope=\"col\">NOME DIPARTIMENTO</th>
@@ -289,7 +305,7 @@
                  echo "
 
                    <table class=\"table\">
-                       <thead class='thead-dark'>
+                       <thead border=\"1\" class='thead-dark'>
                        <tr>
                          <th scope=\"col\">MATRICOLA</th>
                          <th scope=\"col\">NOME</th>
@@ -357,7 +373,7 @@
                   echo "Ricerca Fallita".$resultC."<br>".$connection->error."<br>";
                 }
 
-                echo "<table class=\"table\">
+                echo "<table border=\"1\" class=\"table\">
                       <thead class='thead-dark'>
                       <tr>
                         <th scope=\"col\">ISBN</th>
@@ -381,22 +397,9 @@
 
                   echo "</table>";
                 }
+                mysqli_close($connection);
                 ?>
           </form>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
           <br>
           <br>
           <br>

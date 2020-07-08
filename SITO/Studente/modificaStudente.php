@@ -130,15 +130,33 @@
           //Per salvare la matricola precedente
           echo  "<input type=\"text\" name=\"matricolaVecchia\" id='savedMatricola' value='".$row['MATRICOLA']."'><br>";
           echo  "<script>$('#savedMatricola').hide()</script>";
+            echo  "INFORMAZIONI DA AGGIORNARE<br><br>";
+          echo"<div class=\"container \" >";
+          echo"<div class=\"row b\">";
+
+          echo"<div class=\"col md-6 text-right \" style=\"line-height:30px;\">";
+
+          echo"<b>MATRICOLA:";
+          echo"<br>NOME:";
+          echo"<br>COGNOME:";
+            echo"<br>NUMERO DI TELEFONO:";
+          echo"  <br>VIA:";
+          echo"  <br>CIVICO:";
+        echo"    <br>CAP:";
+        echo"    <br>CITTA:";
+        echo"</div>";
+        echo"<div class=\"col md-6 text-left \" >";
+
           echo  "<input type=\"text\" name=\"matricola2\" value='".$row['MATRICOLA']."'><br>";
-          echo  "<input type=\"text\" name=\"nome\" value='".$row['NOME']."'><br>";
-          echo  "<input type=\"text\" name=\"cognome\" value='".$row['COGNOME']."'><br>";
+          echo  " <input type=\"text\" name=\"nome\" value='".$row['NOME']."'><br>";
+          echo   "<input type=\"text\" name=\"cognome\" value='".$row['COGNOME']."'><br>";
           echo  "<input type=\"text\" name=\"telefono\" value='".$row['NUMERO_TELEFONO']."'><br>";
           echo  "<input type=\"text\" name=\"via\" value='".$row['VIA']."'><br>";         //PROBLEMA CON VISUALIZZAZIONE DELLA VIA
-          echo  "<input type=\"text\" name=\"civico\" value='".$row['CIVICO']."'><br>";
-          echo  "<input type=\"text\" name=\"cap\" value='".$row['CAP']."'><br>";
-          echo  "<input type=\"text\" name=\"citta\" value='".$row['CITTA']."'><br>";
+          echo  " <input type=\"text\" name=\"civico\" value='".$row['CIVICO']."'><br>";
+          echo  " <input type=\"text\" name=\"cap\" value='".$row['CAP']."'><br>";
+          echo  " <input type=\"text\" name=\"citta\" value='".$row['CITTA']."'><br><br>";
           echo "<script>$('#Aggiorna').show()</script>";
+
 
         }
         if(isset($_POST['Agg'])){
@@ -153,6 +171,18 @@
               $cap=get_post($connection, 'cap');
               $citta=get_post($connection, 'citta');
 
+              if(!is_numeric($matricola2)){
+                echo "<br><b>Inserire Una Matricola Valida</b>";
+                mysqli_close($connection);
+                exit(-1);
+              }
+              if(strlen($matricola2) < 10){
+              $insertZero = "";
+              for($i = 0; $i < (10- strlen($matricola2)); $i++){
+              $insertZero = "0".$insertZero;
+              }
+              $matricola2 = $insertZero.$matricola2;
+              }
               $query = "UPDATE STUDENTE SET MATRICOLA='$matricola2', NOME='$nome', COGNOME='$cognome', NUMERO_TELEFONO='$telefono', VIA='$via', CIVICO='$civico', CAP='$cap', CITTA='$citta' WHERE MATRICOLA='$matricola';";
               $result = mysqli_query($connection, $query);
               if(!$result){
@@ -168,7 +198,10 @@
           return $connection->real_escape_string($_POST[$var]);
         }
         ?>
-        <input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'>
+      </div>
+      </div>
+      </div>
+        <center><input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'></center>
       </form>
       <script type="text/javascript">
       $(document).ready(function(){

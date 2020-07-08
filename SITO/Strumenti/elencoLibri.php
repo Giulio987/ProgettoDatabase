@@ -81,7 +81,7 @@
     <div class="interno col md-12 text-center"  >
     <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
 
-            <br><b>INSERIRE IL NOME DEL LIBRO</b><br><br>
+            <br><b>INSERIRE IL NOME DEL LIBRO PER RECUPERARE I PRESTITI A ESSO ASSOCIATI</b><br><br>
             <fieldset>
             <label><input id ='Valore' type='text' name='Valore'></label><br>
             </fieldset>
@@ -123,7 +123,9 @@
                 echo "<b>LIBRO NON TROVATO";
                 return(-1);
               }
-              echo "LIBRO:<br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
+
+              echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
+              echo "<br><br>";
               $isbn = $row['ISBN'];
               $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
               $result = mysqli_query($connection, $ricerca_prestito);

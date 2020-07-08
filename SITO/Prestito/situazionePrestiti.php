@@ -78,7 +78,7 @@
         </div>
     </div>
     </div>
-      <div class="interno text-center col md-12"  >
+      <div class="interno text-center "  >
         <br><b>SITUAZIONE DEI PRESTITI:<br>
         <br>
         <?php
@@ -100,9 +100,9 @@
             echo "<br><b>Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
           }
           echo "<table class=\"table\">
-                <thead class='thead-dark'>
+                <thead border=\"1\"  class='thead-dark'>
                 <tr>
-                  <th scope=\"col\">LINGUA</th>
+                  <th scope=\"col\">ISBN</th>
                   <th scope=\"col\">N° COPIA</th>
                   <th scope=\"col\">DATA INIZIO PRESTITO</th>
                   <th scope=\"col\">DATA FINE PRESTITO</th>

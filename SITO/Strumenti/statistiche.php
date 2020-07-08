@@ -75,6 +75,8 @@
             </div>
           </nav>
         </div>
+      </div>
+
         <div class="interno col md-12 text-center" >
         <br>
         <b>LINGUE PIU FREQUENTI:<br>
@@ -215,6 +217,7 @@
               ?>
 
             </div>
+
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
   </html>

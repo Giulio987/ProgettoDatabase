@@ -11,6 +11,17 @@ body
 	background-image:url(../img/escheresque.png);
 }
 
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0,0);
+}
+
+center{
+    text-align:center;
+}
+
 .interno
 {
         background-image:url(../img/Interno.jpg);

@@ -44,7 +44,8 @@ WHERE P.ISBN=C.ISBN AND P.NUMERO_COPIA=C.NUMERO_COPIA AND C.ISBN=L.ISBN AND P.DA
 
 prestiti in imminente scadenza
 
-qui dovrò calcolare la data di rientro e vedere se è vicina a oggi (controllo su php)
+//qui dovrò calcolare la data di rientro e vedere se è vicina a oggi (controllo su php)
 
-SELECT P.ISBN,L.TITOLO,P.NUMERO_COPIA,P.DATA_USCITA
-FROM  PRESTITO;
+SELECT S.MATRICOLA,S.NOME,S.COGNOME,P.ISBN,L.TITOLO,P.NUMERO_COPIA,P.DATA_USCITA, P.N_PROROGHE
+FROM  PRESTITO P,COPIA C,STUDENTE S,LIBRO L
+WHERE P.ISBN=C.ISBN AND P.NUMERO_COPIA = C.NUMERO_COPIA AND P.MATRICOLA = S.MATRICOLA AND P.ISBN = L.ISBN;
