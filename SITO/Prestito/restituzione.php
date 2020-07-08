@@ -92,11 +92,11 @@
                 <label><b>Numero Copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
                 </fieldset>
                 <br>
-                <input type='submit' value="Invia" >
+                <input type='submit' value="Invia" ><br>
               </form>
 
               <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'formDelete' method = 'POST'>
-                <input type='submit' value="Elimina" id='Delete' name='Del'>
+
                 <?php
                 $submit_value = 0;
                 require('../connect.php');
@@ -173,6 +173,7 @@
 
                 mysqli_close($connection);
                 ?>
+                <center><input type='submit' value="Restituisci" id='Delete' name='Del'></center>
               </form>
 
               <script>
