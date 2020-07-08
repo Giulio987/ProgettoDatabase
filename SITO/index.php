@@ -74,7 +74,15 @@
         </div>
         </div>
       </div>
-    </div>
+      <div class="interno text-center col md-12"  >
+        <br>
+        <br>
+        <img src="img/logo_small.png" alt="logo" >
+        <br>
+        <br>
+        <br>
+        <br>
+      </div>
   </body>
 </html>
 <?php
