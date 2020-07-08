@@ -18,13 +18,13 @@
 <body>
   <div class="container">
     <br>
-    <div class="col md-3 titolo right row">
+    <div class="col-md-3 titolo right row">
       <b><font face="arial" size="5">Biblioteca UNIFE</font></b>
     </div>
 
     <div class="row">
 
-      <div class="col md-12">
+      <div class="col-md-12">
         <br>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -123,7 +123,7 @@
           echo"<div class=\"container \" >";
           echo"<div class=\"row b\">";
 
-          echo"<div class=\"col md-6 text-right \" style=\"line-height:30px;\">";
+          echo"<div class=\"col-md-6 text-right \" style=\"line-height:30px;\">";
 
           echo"<b>MATRICOLA:";
           echo"<br>NOME:";
@@ -134,7 +134,7 @@
           echo"    <br>CAP:";
           echo"    <br>CITTA:";
           echo"</div>";
-          echo"<div class=\"col md-6 text-left \" >";
+          echo"<div class=\"col-md-6 text-left \" >";
 
           echo  "<input type=\"text\" name=\"matricola2\" value='".$row['MATRICOLA']."'><br>";
           echo  " <input type=\"text\" name=\"nome\" value='".$row['NOME']."'><br>";
@@ -188,8 +188,8 @@
           </div>
         </div>
 
-        <button><input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'></button>
-    
+        <center><input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'></center>
+
       </form>
       <script type="text/javascript">
       $(document).ready(function(){
