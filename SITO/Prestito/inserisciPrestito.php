@@ -18,13 +18,13 @@
 <body>
   <div class="container">
     <br>
-    <div class="col md-3 titolo right row">
+    <div class="col-md-3 titolo right row">
       <b><font face="arial" size="5">Biblioteca UNIFE</font></b>
     </div>
 
     <div class="row">
 
-      <div class="col md-12">
+      <div class="col-md-12">
         <br>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -77,24 +77,42 @@
         </div>
       </div>
     </div>
+
     <div class="interno text-center col md-12"  >
+          <br><b>INSERISCI PRESTITO DA REGISTRARE</b><br>
       <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
-        <br><b>INSERISCI PRESTITO DA REGISTRARE</b><br>
+        <div class="container ">
+        <div class="row">
+
+        <div class="col-md-6 text-right " style="line-height:28px;">
+        <br>
+        <b>ISBN:
+        <br>NUMERO COPIA:
+        <br>MATRICOLA:
+
+        </div>
+        <br>
+        <div class="col-md-6 text-left">
+
         <fieldset>
-          <label><br><b>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
+           <input id ='isbn' type='text' name='isbn'><br>
           </fieldset>
 
           <fieldset>
-            <label><b>Numero copia: <input id ='nCopia' type='text' name='nCopia'></label><br>
+             <input id ='nCopia' type='text' name='nCopia'><br>
             </fieldset>
 
             <fieldset>
-              <label><b>Matricola: <input id ='matricola' type='text' name='matricola'></label><br>
+            <input id ='matricola' type='text' name='matricola'><br>
               </fieldset>
-
+            </div>
+            </div>
+            </div>
+            <br>
               <fieldset>
                 <label id = "data"> </label><br>
               </fieldset>
+              <br>
 
               <input type='submit' value="Invia">
             </form>
