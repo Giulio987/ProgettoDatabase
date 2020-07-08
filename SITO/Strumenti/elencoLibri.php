@@ -12,7 +12,7 @@
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <!--Versione non Slim per load function-->
+
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
   </head>
 
@@ -95,93 +95,80 @@
                 }
             })
           });
-      </script>
-      <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
-      <br>
+          </script>
+          <input type='submit' value="VISUALIZZA" id='Visualizza' name='Vis'>
+          <br>
           <?php
-          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
-
-          if(!$connection){
-          echo "<br><b>Non si connette".PHP_EOL;
-          echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
-          echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
-          exit(-1);
-          }
+          require('../connect.php');
           //Visto che i libri hanno tutti un titolo unico verificato con la query:
           //USE Biblioteca;SELECT TITOLO, COUNT(*) FROM LIBRO GROUP BY  TITOLO HAVING COUNT(*) > 1;
-          //Non è necessario avvenga una verifica su quale libro si desideri recuperare
+          //Non è necessario avvenga una verifica su quale libro si desideri recuperare se 2 titoli fossero uguali
           if (isset($_POST['Valore'])){
-              $NomeLibro=get_post($connection, 'Valore');
-              strtoupper($NomeLibro[0]);
-              $ricerca_libro="SELECT * FROM LIBRO WHERE TITOLO LIKE '%$NomeLibro%';";
-              $resultLibro = mysqli_query($connection, $ricerca_libro);
-              if(!$resultLibro){
-                echo "<b>Ricerca Libro Fallita".$resultLibro."<br>".$connection->error."<br>";
-              }
-              $row = mysqli_fetch_array($resultLibro);
-              if(is_null($row['ISBN'])){
-                echo "<b>LIBRO NON TROVATO";
-                return(-1);
-              }
+            $NomeLibro=get_post($connection, 'Valore');
+            strtoupper($NomeLibro[0]);
+            $ricerca_libro="SELECT * FROM LIBRO WHERE TITOLO LIKE '$NomeLibro%';";
+            $resultLibro = mysqli_query($connection, $ricerca_libro);
+            if(!$resultLibro){
+              echo "<b>Ricerca Libro Fallita".$resultLibro."<br>".$connection->error."<br>";
+            }
+            $row = mysqli_fetch_array($resultLibro);
+            if(is_null($row['ISBN'])){
+              echo "<b>LIBRO NON TROVATO";
+              return(-1);
+            }
 
-              echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
-              echo "<br><br>";
+            echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
+            echo "<br><br>";
+            $isbn = $row['ISBN'];
+            $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
+            $result = mysqli_query($connection, $ricerca_prestito);
+            if(!$result){
+              echo "<br><b>Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
+            }
+
+            echo "<table border=\"1\" class=\"table\">
+            <thead class='thead-dark'>
+            <tr>
+            <th scope=\"col\">MATRICOLA</th>
+            <th scope=\"col\">N° COPIA</th>
+            <th scope=\"col\">DATA INIZIO PRESTITO</th>
+            <th scope=\"col\">DATA FINE PRESTITO</th>
+            <th scope=\"col\">PROROGA N°</th>
+            <th scope=\"col\">Dipartimento Provenienza Prestito</th>
+            </tr>
+            </thead>";
+            while($row = mysqli_fetch_array($result)){
+              $n_copia = $row['NUMERO_COPIA'];
               $isbn = $row['ISBN'];
-              $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
-              $result = mysqli_query($connection, $ricerca_prestito);
-              if(!$result){
-                echo "<br><b>Ricerca Prestito Fallita".$result."<br>".$connection->error."<br>";
+              $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
+              $resultDip = mysqli_query($connection, $queryDip);
+              if(!$resultDip){
+                echo "<b>Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
               }
-
-              echo "<table border=\"1\" class=\"table\">
-                    <thead class='thead-dark'>
-                    <tr>
-                      <th scope=\"col\">MATRICOLA</th>
-                      <th scope=\"col\">N° COPIA</th>
-                      <th scope=\"col\">DATA INIZIO PRESTITO</th>
-                      <th scope=\"col\">DATA FINE PRESTITO</th>
-                      <th scope=\"col\">PROROGA N°</th>
-                      <th scope=\"col\">Dipartimento Provenienza Prestito</th>
-                    </tr>
-                  </thead>";
-              while($row = mysqli_fetch_array($result)){
-                $n_copia = $row['NUMERO_COPIA'];
-                $isbn = $row['ISBN'];
-                $queryDip = "SELECT NOME_DIP FROM COPIA WHERE NUMERO_COPIA=$n_copia AND ISBN='$isbn';";
-                $resultDip = mysqli_query($connection, $queryDip);
-                if(!$resultDip){
-                  echo "<b>Ricerca Dipartimento Fallita".$resultDip."<br>".$connection->error."<br>";
-                }
-                $rowDip = mysqli_fetch_array($resultDip);
-                $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
-                $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
-                if(intval($row['N_PROROGHE']) == 1){
-                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
-                }
-                else if(intval($row['N_PROROGHE']) == 2){
-                  $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
-                }
-                  echo"<tbody>
-                    <tr>
-                      <td scope=\"row\">".$row['MATRICOLA']."</th>
-                      <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
-                      <td scope=\"row\">".$data_uscita."</th>
-                      <td scope=\"row\">".$data_rientro."</th>
-                      <td scope=\"row\">".$row['N_PROROGHE']."</th>
-                      <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
-                    </tr>
-                </tbody>";
+              $rowDip = mysqli_fetch_array($resultDip);
+              $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+              $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+              if(intval($row['N_PROROGHE']) == 1){
+                $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
               }
+              else if(intval($row['N_PROROGHE']) == 2){
+                $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+              }
+              echo"<tbody>
+              <tr>
+              <td scope=\"row\">".$row['MATRICOLA']."</th>
+              <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+              <td scope=\"row\">".$data_uscita."</th>
+              <td scope=\"row\">".$data_rientro."</th>
+              <td scope=\"row\">".$row['N_PROROGHE']."</th>
+              <td scope=\"row\">".$rowDip['NOME_DIP']."</th>
+              </tr>
+              </tbody>";
+            }
 
             echo "</table>";
-            }
-          mysqli_close($connection);
-
-
-
-          function get_post($connection, $var){
-            return $connection->real_escape_string($_POST[$var]);
           }
+          mysqli_close($connection);
           ?>
 
         </form>

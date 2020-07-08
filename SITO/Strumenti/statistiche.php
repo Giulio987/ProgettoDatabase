@@ -12,7 +12,6 @@
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <!--Versione non Slim per load function-->
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
   </head>
 
@@ -77,147 +76,124 @@
         </div>
       </div>
 
-        <div class="interno col md-12 text-center" >
+      <div class="interno col md-12 text-center" >
         <br>
         <b>LINGUE PIU FREQUENTI:<br>
-        <br>
-        <?php
-        //PROMEMORIA:
-        //
-        //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
-        //DA POTERLA RICHIAMARE QUANDO SI VUOLE
-        //E ANCHE LA FUNZIONE GET_POST
-          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
-          if(!$connection){
-            echo "Non si connette".PHP_EOL;
-            echo "Codice errore: ".mysqli_connect_errno().PHP_EOL;
-            echo "Messaggio errore: ".mysqli_connect_error().PHP_EOL;
-            exit(-1);
-          }
+          <br>
+          <?php
+          require('../connect.php');
           $queryLingue = "SELECT E_SCRITTO.NOME_LINGUA,COUNT(E_SCRITTO.NOME_LINGUA) AS NUMERO_LIBRI
-                            FROM E_SCRITTO
-                            GROUP BY E_SCRITTO.NOME_LINGUA
-                            ORDER BY NUMERO_LIBRI  DESC
-                            LIMIT 5;";
+          FROM E_SCRITTO
+          GROUP BY E_SCRITTO.NOME_LINGUA
+          ORDER BY NUMERO_LIBRI  DESC
+          LIMIT 5;";
           $result = mysqli_query($connection,$queryLingue);
           if(!$result){
             echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
           }
           echo "<table class=\"table\">
-                <thead class='thead-dark'>
-                <tr>
-                  <th scope=\"col\">LINGUA</th>
-                  <th scope=\"col\">NUMERO LIBRI</th>
-                </tr>
-              </thead>";
+          <thead class='thead-dark'>
+          <tr>
+          <th scope=\"col\">LINGUA</th>
+          <th scope=\"col\">NUMERO LIBRI</th>
+          </tr>
+          </thead>";
           while($row = mysqli_fetch_array($result)){
-                echo"<tbody>
-                    <tr>
-                      <td scope=\"row\">".$row['NOME_LINGUA']."</th>
-                      <td scope=\"row\">".$row['NUMERO_LIBRI']."</th>
-                    </tr>
-                </tbody>";
-              }
+            echo"<tbody>
+            <tr>
+            <td scope=\"row\">".$row['NOME_LINGUA']."</th>
+            <td scope=\"row\">".$row['NUMERO_LIBRI']."</th>
+            </tr>
+            </tbody>";
+          }
 
-            echo "</table>";
+          echo "</table>";
           ?>
           <br>
 
 
           <b>AUTORE CHE HA SCRITTO PIU LIBRI:<br>
-          <br>
-          <?php
-          //PROMEMORIA:
-          //
-          //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
-          //DA POTERLA RICHIAMARE QUANDO SI VUOLE
-          //E ANCHE LA FUNZIONE GET_POST
+            <br>
+            <?php
             $queryAutore = "SELECT A.ID_AUT,A.NOME_A,COGNOME_A,COUNT(S.ID_AUT) AS LIBRI_SCRITTI
-                              FROM AUTORE A,SCRIVE S
-                              WHERE A.ID_AUT=S.ID_AUT
-                              GROUP BY A.ID_AUT
-                              HAVING LIBRI_SCRITTI=(SELECT MAX(T.LIBRI_SCRITTI)
-						                        FROM(SELECT A.ID_AUT,A.NOME_A,COGNOME_A,COUNT(S.ID_AUT) AS LIBRI_SCRITTI
-								                    FROM AUTORE A,SCRIVE S
-								                    WHERE A.ID_AUT=S.ID_AUT
-								                    GROUP BY A.ID_AUT
-								                    ORDER BY LIBRI_SCRITTI DESC) AS T)
-                              ORDER BY LIBRI_SCRITTI DESC;";
+            FROM AUTORE A,SCRIVE S
+            WHERE A.ID_AUT=S.ID_AUT
+            GROUP BY A.ID_AUT
+            HAVING LIBRI_SCRITTI=(SELECT MAX(T.LIBRI_SCRITTI)
+            FROM(SELECT A.ID_AUT,A.NOME_A,COGNOME_A,COUNT(S.ID_AUT) AS LIBRI_SCRITTI
+            FROM AUTORE A,SCRIVE S
+            WHERE A.ID_AUT=S.ID_AUT
+            GROUP BY A.ID_AUT
+            ORDER BY LIBRI_SCRITTI DESC) AS T)
+            ORDER BY LIBRI_SCRITTI DESC;";
             $result = mysqli_query($connection,$queryAutore);
             if(!$result){
               echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
             }
             echo "<table class=\"table\">
-                  <thead class='thead-dark'>
-                  <tr>
-                    <th scope=\"col\">ID AUTORE</th>
-                    <th scope=\"col\">NOME AUTORE</th>
-                    <th scope=\"col\">COGNOME AUTORE</th>
-                    <th scope=\"col\">LIBRI SCRITTI</th>
-                  </tr>
-                </thead>";
+            <thead class='thead-dark'>
+            <tr>
+            <th scope=\"col\">ID AUTORE</th>
+            <th scope=\"col\">NOME AUTORE</th>
+            <th scope=\"col\">COGNOME AUTORE</th>
+            <th scope=\"col\">LIBRI SCRITTI</th>
+            </tr>
+            </thead>";
             while($row = mysqli_fetch_array($result)){
-                  echo"<tbody>
-                      <tr>
-                        <td scope=\"row\">".$row['ID_AUT']."</th>
-                        <td scope=\"row\">".$row['NOME_A']."</th>
-                        <td scope=\"row\">".$row['COGNOME_A']."</th>
-                        <td scope=\"row\">".$row['LIBRI_SCRITTI']."</th>
-                      </tr>
-                  </tbody>";
-                }
+              echo"<tbody>
+              <tr>
+              <td scope=\"row\">".$row['ID_AUT']."</th>
+              <td scope=\"row\">".$row['NOME_A']."</th>
+              <td scope=\"row\">".$row['COGNOME_A']."</th>
+              <td scope=\"row\">".$row['LIBRI_SCRITTI']."</th>
+              </tr>
+              </tbody>";
+            }
 
-              echo "</table>";
+            echo "</table>";
             ?>
             <br>
 
             <b>EDITORE CHE HA PUBBLICATO PIU LIBRI:<br>
-            <br>
-            <?php
-            //PROMEMORIA:
-            //
-            //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
-            //DA POTERLA RICHIAMARE QUANDO SI VUOLE
-            //E ANCHE LA FUNZIONE GET_POST
+              <br>
+              <?php
               $queryEditore = "SELECT E.NOME_ED,COUNT(L.COD_ED) AS LIBRI_PUBBLICATI
-                                FROM EDITORE E,LIBRO L
-                                WHERE E.CODICE=L.COD_ED
-                                GROUP BY L.COD_ED
-                                HAVING LIBRI_PUBBLICATI=(SELECT MAX(T.LIBRI_PUBBLICATI)
-							                         FROM(SELECT E.NOME_ED,COUNT(L.COD_ED) AS LIBRI_PUBBLICATI
-									                           FROM EDITORE E,LIBRO L
-									                           WHERE E.CODICE=L.COD_ED
-									                           GROUP BY L.COD_ED
-									                           ORDER BY LIBRI_PUBBLICATI DESC) AS T)
-                                ORDER BY LIBRI_PUBBLICATI DESC;";
+              FROM EDITORE E,LIBRO L
+              WHERE E.CODICE=L.COD_ED
+              GROUP BY L.COD_ED
+              HAVING LIBRI_PUBBLICATI=(SELECT MAX(T.LIBRI_PUBBLICATI)
+              FROM(SELECT E.NOME_ED,COUNT(L.COD_ED) AS LIBRI_PUBBLICATI
+              FROM EDITORE E,LIBRO L
+              WHERE E.CODICE=L.COD_ED
+              GROUP BY L.COD_ED
+              ORDER BY LIBRI_PUBBLICATI DESC) AS T)
+              ORDER BY LIBRI_PUBBLICATI DESC;";
               $result = mysqli_query($connection,$queryEditore);
               if(!$result){
                 echo "Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
               }
               echo "<table class=\"table\">
-                    <thead class='thead-dark'>
-                    <tr>
-                      <th scope=\"col\">NOME EDITORE</th>
-                      <th scope=\"col\">LIBRI PUBBLICATI</th>
-                    </tr>
-                  </thead>";
+              <thead class='thead-dark'>
+              <tr>
+              <th scope=\"col\">NOME EDITORE</th>
+              <th scope=\"col\">LIBRI PUBBLICATI</th>
+              </tr>
+              </thead>";
               while($row = mysqli_fetch_array($result)){
-                    echo"<tbody>
-                        <tr>
-                          <td scope=\"row\">".$row['NOME_ED']."</th>
-                          <td scope=\"row\">".$row['LIBRI_PUBBLICATI']."</th>
-                        </tr>
-                    </tbody>";
-                  }
+                echo"<tbody>
+                <tr>
+                <td scope=\"row\">".$row['NOME_ED']."</th>
+                <td scope=\"row\">".$row['LIBRI_PUBBLICATI']."</th>
+                </tr>
+                </tbody>";
+              }
 
-                echo "</table>";
+              echo "</table>";
 
 
-                mysqli_close($connection);
+              mysqli_close($connection);
               ?>
-
-            </div>
-
+        </div>
       </div>  <!-- FINE DIV INDENTAZIONE -->
     </body>
   </html>

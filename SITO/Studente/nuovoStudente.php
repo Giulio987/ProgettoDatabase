@@ -12,7 +12,6 @@
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <!--Versione non Slim per load function-->
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
   </head>
 
@@ -78,11 +77,9 @@
             <div class="input-group">
         </div>
     </div>
-    </div>
-
-
-        <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
-          <div class="interno text-center col md-12"  >
+  </div>
+  <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
+    <div class="interno text-center col md-12"  >
           <br>
             <fieldset>
             <label><b>Matricola:</b> <input id ='matricola' type='text' name='matricola'></label><br>
@@ -121,86 +118,69 @@
         </form>
 
         <script>
-        $(document).ready(function(){
+          $(document).ready(function(){
             $('#form').submit(function(){
-                if($('#nome').val() == '' || $('#cognome').val() == '' || $('#matricola').val() == '' || $('#telefono').val() == ''){
-                    alert('Inserire I campi obbligatori: Matricola, Nome, Cognome, Telefono')
-                    return false
-                }
+              if($('#nome').val() == '' || $('#cognome').val() == '' || $('#matricola').val() == '' || $('#telefono').val() == ''){
+                alert('Inserire I campi obbligatori: Matricola, Nome, Cognome, Telefono')
+                return false
+              }
             })
-      });
-  </script>
-  <?php
+          });
+        </script>
+        <?php
+          require('../connect.php');
 
-  $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
+          if(isset($_POST['matricola']) && isset($_POST['nome']) && isset($_POST['cognome'])){
 
-  if(!$connection){
-  echo "<b>Non si connette".PHP_EOL;
-  echo "<b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
-  echo "<b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
-  exit(-1);
-  }
+            $matricola=get_post($connection, 'matricola');
+            $nome=get_post($connection, 'nome');
+            $cognome=get_post($connection, 'cognome');
+            $telefono=get_post($connection, 'telefono');
+            $via=get_post($connection, 'via');
+            $civico=get_post($connection, 'civico');
+            $cap=get_post($connection, 'cap');
+            $citta=get_post($connection, 'citta');
 
-  if(isset($_POST['matricola']) && isset($_POST['nome']) && isset($_POST['cognome'])){
+            if(!is_numeric($matricola)){
+              echo "<b>Inserire Una Matricola Valida";
+              mysqli_close($connection);
+              exit(-1);
+            }
+            if(strlen($matricola) < 10){
+              $insertZero = "";
+              for($i = 0; $i < (10- strlen($matricola)); $i++){
+                $insertZero = "0".$insertZero;
+              }
+              $matricola = $insertZero.$matricola;
+            }
 
-  $matricola=get_post($connection, 'matricola');
-  $nome=get_post($connection, 'nome');
-  $cognome=get_post($connection, 'cognome');
-  $telefono=get_post($connection, 'telefono');
-  $via=get_post($connection, 'via');
-  $civico=get_post($connection, 'civico');
-  $cap=get_post($connection, 'cap');
-  $citta=get_post($connection, 'citta');
-
-  if(!is_numeric($matricola)){
-    echo "<b>Inserire Una Matricola Valida";
-    mysqli_close($connection);
-    exit(-1);
-  }
-  if(strlen($matricola) < 10){
-  $insertZero = "";
-  for($i = 0; $i < (10- strlen($matricola)); $i++){
-  $insertZero = "0".$insertZero;
-  }
-  $matricola = $insertZero.$matricola;
-  }
-
-  $ins_studente="INSERT INTO STUDENTE VALUES('$matricola','$nome','$cognome','$telefono','$via','$civico','$cap','$citta')";
-  $result = mysqli_query($connection, $ins_studente);
-  if(!$result){
-    echo "<b>Inserimento Fallito".$result."<br>".$connection->error."<br>";
-  }
-  echo "<b>Inserimento ok";
-  }
-  //ALLA FINE SAREBBE MEGLIO VISUALIZZARE LE INFO INSERITE
-  mysqli_close($connection);
-
-
-
-  function get_post($connection, $var){
-    return $connection->real_escape_string($_POST[$var]);
-  }
-  ?>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-
-    </div>
-
-</div>  <!-- FINE DIV INDENTAZIONE -->
-    </body>
+            $ins_studente="INSERT INTO STUDENTE VALUES('$matricola','$nome','$cognome','$telefono','$via','$civico','$cap','$citta')";
+            $result = mysqli_query($connection, $ins_studente);
+            if(!$result){
+              echo "<br>Inserimento Fallito".$result."<br>".$connection->error."<br>";
+            }
+            echo "<br>Inserimento ok";
+          }
+          mysqli_close($connection);
+          ?>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+      </div>
+    </div>  <!-- FINE DIV INDENTAZIONE -->
+  </body>
 </html>

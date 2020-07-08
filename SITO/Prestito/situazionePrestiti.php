@@ -12,7 +12,6 @@
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <!--Versione non Slim per load function-->
     <script src='https://code.jquery.com/jquery-3.5.1.min.js'></script>
   </head>
 
@@ -82,18 +81,7 @@
         <br><b>SITUAZIONE DEI PRESTITI:<br>
         <br>
         <?php
-        //PROMEMORIA:
-        //
-        //SAREBBE PIU ELEGANTE METTERE COME LIBRERIA ESTERNA IL CONNECT IN MODO
-        //DA POTERLA RICHIAMARE QUANDO SI VUOLE
-        //E ANCHE LA FUNZIONE GET_POST
-          $connection = mysqli_connect("127.0.0.1","root","","Biblioteca");
-          if(!$connection){
-            echo "<br><b>Non si connette".PHP_EOL;
-            echo "<br><b>Codice errore: ".mysqli_connect_errno().PHP_EOL;
-            echo "<br><b>Messaggio errore: ".mysqli_connect_error().PHP_EOL;
-            exit(-1);
-          }
+          require('../connect.php');
           $queryPrestiti = "SELECT * FROM PRESTITO";
           $result = mysqli_query($connection,$queryPrestiti);
           if(!$result){
