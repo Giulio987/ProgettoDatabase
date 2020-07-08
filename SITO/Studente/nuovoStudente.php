@@ -87,7 +87,7 @@
           <div class="container ">
           <div class="row">
 
-          <div class="col-md-6 text-right " style="line-height:30px;">
+          <div class="col-md-6 text-right " style="line-height:29px;">
           <br>
           <b>MATRICOLA:
           <br>NOME:
