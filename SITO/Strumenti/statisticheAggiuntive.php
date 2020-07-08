@@ -165,7 +165,9 @@
           });
         }
         </script>
+        <hr>
         <br>
+
         <p>
           <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" id="collapse1" href="#prestitiStudenti" role="button" aria-expanded="false" aria-controls="collapseExample">
             PRIMI 15 STUDENTI CON PIU PRESTITI ATTIVI
@@ -313,6 +315,8 @@
           </div>
         </div><!-- FINE DIV COLLAPSIBLE-->
         <!--INSERRENDO LA DATA VENGONO VISUALIZZATE LE INFORMAZIONI SUI PRESTITI IN QUELLA DATA-->
+        <br>
+        <hr>
         <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form2' class= 'loader'>
           <br><b>INSERISCI UNA DATA E TROVA I PRESTITI EFFETTUATI IN QUELLA DATA</b><br>
           <fieldset>
