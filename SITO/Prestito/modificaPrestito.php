@@ -81,7 +81,7 @@
     <div class="interno text-center col md-12"  >
       <form action="<?=$_SERVER['PHP_SELF'];?>" id = 'form' method = 'POST'>
 
-        <br><b>Inserire Le Informazioni da Ricercare:<br>
+        <br><b>INSERIRE LE INFORMAZIONI DA RICERCARE:<br><br>
           <fieldset>
             <label><b>ISBN: <input id ='isbn' type='text' name='isbn'></label><br>
             </fieldset>
@@ -199,8 +199,8 @@
                 }
                 mysqli_close($connection);
                 ?>
-
-                <input type='submit' value="Proroga" id='Proroga' name='Pror'>
+                <br><br>
+                <center><input type='submit' value="Proroga" id='Proroga' name='Pror'></center>
               </form>
               <script>
               $(document).ready(function(){
