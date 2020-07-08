@@ -134,7 +134,7 @@
                   echo  "<input type=\"text\" name=\"nCopia1\" id='nCopiaSaved' value='".$row['NUMERO_COPIA']."'>";
                   echo  "<script>$('#nCopiaSaved').hide()</script>";
 
-                  echo "<table class=\"table\">
+                  echo "<table border=\"1\"  class=\"table\">
                   <thead class='thead-dark'>
                   <tr>
                   <th scope=\"col\">MATRICOLA</th>
