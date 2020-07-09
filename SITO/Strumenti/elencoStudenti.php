@@ -81,7 +81,7 @@
     <div class="interno col md-12 text-center" >
       <form action="<?=$_SERVER['PHP_SELF'];?>" method="POST" id='form' class= 'loader'>
         <fieldset>
-          <label><br><b>INSERIRE LO STUDENTE PER RECUPERARE I PRESTITI A ESSO ASSOCIATI:</b><br> <br><input id ='Valore' type='text' name='Valore'></label><br>
+          <label><br><b>INSERIRE IL NOME DELLO STUDENTE PER RECUPERARE I PRESTITI A ESSO ASSOCIATI:</b><br> <br><input id ='Valore' type='text' name='Valore'></label><br>
         </fieldset>
 
         <br>
