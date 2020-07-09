@@ -145,7 +145,9 @@
           echo  " <input type=\"text\" name=\"cap\" value='".$row['CAP']."'><br>";
           echo  " <input type=\"text\" name=\"citta\" value='".$row['CITTA']."'><br><br>";
           echo "<script>$('#Aggiorna').show()</script>";
-
+          echo "</div>
+              </div>
+            </div>";
 
         }
         if(isset($_POST['Agg'])){
@@ -184,9 +186,7 @@
         }
         mysqli_close($connection);
         ?>
-            </div>
-          </div>
-        </div>
+
 
         <center><input type='submit' value="Aggiorna" id='Aggiorna' name='Agg'></center>
 

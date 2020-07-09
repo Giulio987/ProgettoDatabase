@@ -87,9 +87,9 @@
 
           <div class="col-md-6 text-right " style="line-height:28px;">
           <br>
-          <b>ISBN:
-          <br>NUMERO COPIA:
-          <br>MATRICOLA:
+          <b>MATRICOLA:
+          <br>ISBN
+          <br>NUMERO COPIA
 
           </div>
           <br>
@@ -122,7 +122,6 @@
                   $matricola=get_post($connection, 'matricola');
                   $isbn=get_post($connection, 'isbn');
                   $nCopia=get_post($connection, 'nCopia');
-
                   if(!is_numeric($matricola)){
                     echo "Inserire Una Matricola Valida";
                     mysqli_close($connection);

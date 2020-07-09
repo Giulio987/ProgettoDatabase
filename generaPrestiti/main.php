@@ -1,6 +1,4 @@
 <?php
-//NON FUNZIONAPERCHENON é AGGIORNATO SUGLIINSERT: LUI VEDE SOLO QUELLI INSERITI E NON QUELLI GENERATI
-//e NON ANCORA INSERITI
     $connection = mysqli_connect("127.0.0.1","root","", "Biblioteca");
 
     if(!$connection){
