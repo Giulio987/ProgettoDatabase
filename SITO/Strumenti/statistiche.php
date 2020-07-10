@@ -82,9 +82,9 @@
           <br>
           <?php
           require('../connect.php');
-          $queryLingue = "SELECT E_SCRITTO.NOME_LINGUA,COUNT(E_SCRITTO.NOME_LINGUA) AS NUMERO_LIBRI
-          FROM E_SCRITTO
-          GROUP BY E_SCRITTO.NOME_LINGUA
+          $queryLingue = "SELECT LIBRO.NOME_LINGUA,COUNT(LIBRO.NOME_LINGUA) AS NUMERO_LIBRI
+          FROM LIBRO
+          GROUP BY LIBRO.NOME_LINGUA
           ORDER BY NUMERO_LIBRI  DESC
           LIMIT 5;";
           $result = mysqli_query($connection,$queryLingue);

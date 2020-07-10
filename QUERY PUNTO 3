@@ -1,9 +1,9 @@
 
 "5 LINGUE PIU FREQUENTI"
 
-SELECT E_SCRITTO.NOME_LINGUA,COUNT(E_SCRITTO.NOME_LINGUA) AS NUMERO_LIBRI
-                            FROM E_SCRITTO
-                            GROUP BY E_SCRITTO.NOME_LINGUA
+SELECT LIBRO.NOME_LINGUA,COUNT(LIBRO.NOME_LINGUA) AS NUMERO_LIBRI
+                            FROM LIBRO
+                            GROUP BY LIBRO.NOME_LINGUA
                             ORDER BY NUMERO_LIBRI  DESC
                             LIMIT 5;
 

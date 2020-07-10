@@ -117,7 +117,7 @@
               return(-1);
             }
 
-            echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED'];
+            echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED']."<br>Lingua:  ".$row['NOME_LINGUA'];
             echo "<br><br>";
             $isbn = $row['ISBN'];
             $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
