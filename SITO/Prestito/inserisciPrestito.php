@@ -64,8 +64,8 @@
                   Strumenti Di Ricerca
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="../Strumenti/elencoStudenti.php" id='punto1'>Libri</a>
-                  <a class="dropdown-item" href="../Strumenti/elencoLibri.php" id = 'punto2'>Statistiche aggiuntive</a>
+                  <a class="dropdown-item" href="../Strumenti/elencoStudenti.php" id='punto1'>Elenco Studenti</a>
+                  <a class="dropdown-item" href="../Strumenti/elencoLibri.php" id = 'punto2'>Elenco Libri</a>
                   <a class="dropdown-item" href="../Strumenti/statistiche.php" id = 'statistiche'>Tool Statistiche</a>
                   <a class="dropdown-item" href="../Strumenti/statisticheAggiuntive.php" id = 'statistiche2'>Statistiche aggiuntive</a>
                 </div>

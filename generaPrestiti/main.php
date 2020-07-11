@@ -76,6 +76,7 @@
 
         //output finale
         echo "INSERT INTO PRESTITO VALUES('".$libro['ISBN']."', ".$libro['NUMERO_COPIA'].", '".$studente['MATRICOLA']."', '".date("Y-m-d", $timestamp)."',0);"."<br>";
+        //inserimento necessario per il  controllo 
         $queryInsert = "INSERT INTO PRESTITO VALUES('".$libro['ISBN']."', ".$libro['NUMERO_COPIA'].", '".$studente['MATRICOLA']."', '".date("Y-m-d", $timestamp)."',0);";
         $resultInsert = mysqli_query($connection, $queryInsert);
         if(!$resultInsert){

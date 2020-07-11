@@ -111,7 +111,7 @@
             echo "<b>Ricerca Fallita".$result."<br>".$connection->error."<br>";
           }
           $row = mysqli_fetch_array($result);
-          //Controllo se lamatricola esiste nel database
+          //Controllo se la matricola esiste nel database
           if(is_null($row['MATRICOLA'])){
             echo "Matricola non trovata";
             return;

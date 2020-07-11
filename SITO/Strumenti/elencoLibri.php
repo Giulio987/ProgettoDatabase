@@ -117,7 +117,7 @@
               return(-1);
             }
 
-            echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED']."<br>Lingua:  ".$row['NOME_LINGUA'];
+            echo "<br><b>LIBRO:</b><br>ISBN:  ".$row['ISBN']."<br>TITOLO:  ".$row['TITOLO']."<br>ANNO PUBBLICAZIONE:   ".$row['ANNO_PUBBL']."<br>CODICE EDITORE:  ".$row['COD_ED']."<br>LINGUA:  ".$row['NOME_LINGUA'];
             echo "<br><br>";
             $isbn = $row['ISBN'];
             $ricerca_prestito="SELECT * FROM PRESTITO WHERE ISBN='$isbn';";
@@ -134,7 +134,7 @@
             <th scope=\"col\">DATA INIZIO PRESTITO</th>
             <th scope=\"col\">DATA FINE PRESTITO</th>
             <th scope=\"col\">PROROGA N°</th>
-            <th scope=\"col\">Dipartimento Provenienza Prestito</th>
+            <th scope=\"col\">DIPARTIMENTO DI PROVENIENZA DELLA COPIA</th>
             </tr>
             </thead>";
             while($row = mysqli_fetch_array($result)){

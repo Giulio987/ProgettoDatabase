@@ -141,13 +141,21 @@
           $("#collapse1").on('click', function() {
             $("#libridip").removeClass("show");
             $("#scadenze").removeClass("show");
+            $("#prestitiScaduti").removeClass("show");
           });
           $("#collapse2").on('click', function() {
             $("#prestitiStudenti").removeClass("show");
             $("#scadenze").removeClass("show");
+            $("#prestitiScaduti").removeClass("show");
           });
           $("#collapse3").on('click', function() {
             $("#libridip").removeClass("show");
+            $("#prestitiStudenti").removeClass("show");
+            $("#prestitiScaduti").removeClass("show");
+          });
+          $("#collapse4").on('click', function() {
+            $("#libridip").removeClass("show");
+            $("#scadenze").removeClass("show");
             $("#prestitiStudenti").removeClass("show");
           });
         });
@@ -177,6 +185,9 @@
           </a>
           <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" id="collapse3" href="#scadenze" role="button" aria-expanded="false" aria-controls="collapseExample">
             PRESTITI IN SCADENZA
+          </a>
+          <a class="btn btn-primary bg-dark text-white" data-toggle="collapse" id="collapse4" href="#prestitiScaduti" role="button" aria-expanded="false" aria-controls="collapseExample">
+            PRESTITI SCADUTI
           </a>
         </p>
         <!--PER VISUALIZZARE I 15 STUDENTI CHE HANNO PIU' PRESTITI CON LA BIBLIOTECA E QUANTI SONO-->
@@ -312,6 +323,58 @@
             echo "</table>";
 
             ?>
+          </div>
+        </div><!-- FINE DIV COLLAPSIBLE-->
+        <!--PER VISUALIZZARE I PRESTITI SCADUTI (INSERITA POICHE' RITENUTA UTILE ANCHE SE SEMPLICE) -->
+        <div class="collapse" id="prestitiScaduti">
+          <div class="card card-body">
+            <?php
+            $queryScaduti = "SELECT * FROM PRESTITO;";
+            $result = mysqli_query($connection,$queryScaduti);
+            if(!$result){
+              echo "<br>Ricerca Prestiti Fallita".$result."<br>".$connection->error."<br>";
+            }
+            echo "
+
+            <table border=\"1\" class=\"table\">
+            <thead class='thead-dark'>
+            <tr>
+            <th scope=\"col\">MATRICOLA</th>
+            <th scope=\"col\">ISBN</th>
+            <th scope=\"col\">NUMERO COPIA</th>
+            <th scope=\"col\">DATA DI INZIO PRESTITO</th>
+            <th scope=\"col\">DATA DI RIENTRO</th>
+            </tr>
+            </thead>";
+            while($row = mysqli_fetch_array($result)){
+
+              $data_uscita=date('Y-m-d', strtotime($row['DATA_USCITA']));
+              $data_rientro = date('Y-m-d', strtotime($data_uscita.' + 30 days'));
+              if(intval($row['N_PROROGHE']) == 1){
+                $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 15 days'));
+              }
+              else if(intval($row['N_PROROGHE']) == 2){
+                $data_rientro = date('Y-m-d', strtotime($data_rientro.' + 30 days'));
+              }
+              $data_oggi=date('Y-m-d');
+              $datetime1 = new DateTime($data_rientro);
+              $datetime2 = new DateTime($data_oggi);
+              $interval = $datetime2->diff($datetime1);
+              if($interval->format('%R%a') < 0){
+                echo"<tbody>
+                <tr>
+                <td scope=\"row\">".$row['MATRICOLA']."</th>
+                <td scope=\"row\">".$row['ISBN']."</th>
+                <td scope=\"row\">".$row['NUMERO_COPIA']."</th>
+                <td scope=\"row\">".$row['DATA_USCITA']."</th>
+                <td scope=\"row\">".$data_rientro."</th>
+                </tr>
+                </tbody>";
+              }
+            }
+            echo "</table>";
+            ?>
+
           </div>
         </div><!-- FINE DIV COLLAPSIBLE-->
         <!--INSERRENDO LA DATA VENGONO VISUALIZZATE LE INFORMAZIONI SUI PRESTITI IN QUELLA DATA-->
